@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?><plug-in>
+    
+        
+    <!-- Plugin Informations -->
+	<name>form-exportdatabase</name>
+	<class>fr.paris.lutece.plugins.form.modules.exportdatabase.service.ExportdatabasePlugin</class>
+	<version>1.0.4</version>
+	<description>module.form.exportdatabase.module.description</description>
+	<documentation/>
+	<installation/>
+	<changes/>
+	<user-guide/>
+	<provider>module.form.exportdatabase.module.provider</provider>
+	<provider-url>http://lutece.paris.fr</provider-url>
+	<icon-url>images/admin/skin/plugins/form/form.png</icon-url>
+	<copyright>Copyright 2001-2010 Mairie de Paris</copyright>
+	<core-version-dependency>
+		<min-core-version>2.4.0</min-core-version>
+		<max-core-version/>	
+	</core-version-dependency>
+	
+	<!-- if the plugin must have a connection pool with parameter : 1 - yes, 0 - no -->	
+	<db-pool-required>1</db-pool-required>
+    
+    
+</plug-in>

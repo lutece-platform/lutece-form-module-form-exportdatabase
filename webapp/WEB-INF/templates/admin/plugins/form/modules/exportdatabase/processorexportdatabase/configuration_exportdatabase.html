@@ -1,0 +1,85 @@
+<div>
+	<h2>#i18n{module.form.exportdatabase.configuration_exportdatabase.title}</h2>
+<#if form_exported &gt; 0>
+	<p>
+	<em>#i18n{module.form.exportdatabase.configuration_exportdatabase.configurationLocked}</em>
+	</p>
+	<p>
+    	<label for="action_delete_configuration"><font style="color: red;">#i18n{module.form.exportdatabase.configuration_exportdatabase.deleteConfiguration}</font> : </label>
+        <input type="radio" name="action_exportdatabase" id="action_exportdatabase" tabindex="1" value="delete_configuration" />
+	</p>
+	<p>
+    	<label for="action_delete_exporttables"><font style="color: red;">#i18n{module.form.exportdatabase.configuration_exportdatabase.deleteTables}</font> : </label>
+        <input type="radio" name="action_exportdatabase" id="action_exportdatabase" tabindex="1" value="delete_exporttables" />
+	</p>
+	<p>
+    	<label for="action_exportdatabase"><font style="color: red;">#i18n{module.form.exportdatabase.configuration_exportdatabase.deleteExportAll}</font> : </label>
+        <input type="radio" name="action_exportdatabase" id="action_exportdatabase" tabindex="2" value="delete_exportall" />
+	</p>
+<#else>
+<#if form_configuration.tableName?has_content>
+	<p>
+    	<label for="action_delete_configuration"><font style="color: red;">#i18n{module.form.exportdatabase.configuration_exportdatabase.deleteConfiguration}</font> : </label>
+        <input type="radio" name="action_exportdatabase" id="action_exportdatabase" tabindex="1" value="delete_configuration" onclick="javascript:document.getElementById('set_config_block').style.display='none';"/>
+	</p>
+	<p>
+    	<label for="action_delete_configuration"><font style="color: red;">#i18n{module.form.exportdatabase.configuration_exportdatabase.modifyConfiguration}</font> : </label>
+        <input type="radio" name="action_exportdatabase" id="set_config" tabindex="1" value="set_config" onclick="javascript:document.getElementById('set_config_block').style.display='block';"/>
+	</p>
+	<div id="set_config_block">
+<#else>
+	<input type="hidden" name="action_exportdatabase" id="set_config" value="set_config" />
+</#if>
+	<div class="highlight-box">
+        <p>
+       		<label for="table_name">#i18n{module.form.exportdatabase.configuration_exportdatabase.LabelTableName}</label> * :
+            <input type="text" name="table_name" id="table_name" tabindex="1" size="50" maxlength="255" value="${form_configuration.tableName!}"/>
+        </p>
+    </div>
+    <div class="highlight-box">
+        <h3>#i18n{module.form.exportdatabase.configuration_exportdatabase.LabelColumnName}</h3>
+        <p>
+        	<input type="button" class="button" name="auto_fill" value="#i18n{module.form.exportdatabase.configuration_exportdatabase.buttonAutoFill}" id="auto_fill" onclick="javascript:autoFillEntriesConfiguration();"/>
+        	<input type="button" class="button" name="auto_empty" value="#i18n{module.form.exportdatabase.configuration_exportdatabase.buttonClearAll}" id="auto_empty" onclick="javascript:clearAll();"/>
+        </p>
+        <#list entry_configuration_list as entry_configuration>
+        <p>
+       		<label for="column_name_${entry_configuration.idEntry}">${entry_configuration.entryTitle}</label> * :
+            <input type="text" name="column_name_${entry_configuration.idEntry}" 
+            id="column_name_${entry_configuration.idEntry}" tabindex="1" size="50" maxlength="255" value="${entry_configuration.columnName!}" />
+        </p>
+        </#list>
+   </div>
+   <#if form_submit &gt; 0>
+   <div class="highlight-box">
+        <p>
+			<label for="export_all"><font style="color: red;">#i18n{module.form.exportdatabase.configuration_exportdatabase.LabelExportAll}</font></label> * :
+            <input type="radio" name="export_all" value="yes" checked="checked" />#i18n{module.form.exportdatabase.configuration_exportdatabase.LabelExportAllYes}
+            <input type="radio" name="export_all" value="no" />#i18n{module.form.exportdatabase.configuration_exportdatabase.LabelExportAllNo}
+        </p>
+   </div>
+   </#if>
+<#if form_configuration.tableName?has_content>
+   </div>
+   <script language="javascript">
+   		document.getElementById('set_config_block').style.display='none';
+   </script>
+</#if>
+</#if>
+</div>
+
+<script language="javascript">
+function autoFillEntriesConfiguration()
+{
+	<#list entry_configuration_list as entry_configuration>
+		document.getElementById('column_name_${entry_configuration.idEntry}').value = '${auto_fill}${entry_configuration.idEntry}';
+	</#list>
+}
+
+function clearAll()
+{
+	<#list entry_configuration_list as entry_configuration>
+		document.getElementById('column_name_${entry_configuration.idEntry}').value = '';
+	</#list>
+}
+</script>
