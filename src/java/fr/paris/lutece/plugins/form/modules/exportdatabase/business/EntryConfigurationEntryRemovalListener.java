@@ -53,10 +53,10 @@ public class EntryConfigurationEntryRemovalListener implements RemovalListener
     private static final String PROPERTY_FORM_CANNOT_BE_REMOVED = "module.form.exportdatabase.message.entryCannotBeRemoved";
 
     /**
-    * Check if the object can be safely removed
-    * @param strId The object id
-    * @return true if the pbject can be removed otherwise false
-    */
+     * Check if the object can be safely removed
+     * @param strId The object id
+     * @return true if the object can be removed otherwise false
+     */
     public boolean canBeRemoved( String strId )
     {
         if ( strId == null )
@@ -66,18 +66,15 @@ public class EntryConfigurationEntryRemovalListener implements RemovalListener
 
         Plugin pluginExportdatabase = PluginService.getPlugin( ExportdatabasePlugin.PLUGIN_NAME );
         Plugin pluginForm = PluginService.getPlugin( FormPlugin.PLUGIN_NAME );
-        IEntry entry = EntryHome.findByPrimaryKey( Integer.parseInt( strId ), pluginForm );
-        FormConfiguration formConfiguration = FormConfigurationHome.findByPrimaryKey( entry.getForm(  ).getIdForm(  ),
+        IEntry entry = EntryHome.findByPrimaryKey( Integer.parseInt( strId ) );
+        FormConfiguration formConfiguration = FormConfigurationHome.findByPrimaryKey( entry.getIdResource( ),
                 pluginExportdatabase );
 
         if ( formConfiguration != null )
         {
             return false;
         }
-        else
-        {
-            return true;
-        }
+        return true;
     }
 
     /**

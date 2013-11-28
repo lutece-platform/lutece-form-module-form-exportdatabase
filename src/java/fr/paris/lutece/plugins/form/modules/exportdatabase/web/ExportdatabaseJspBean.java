@@ -46,44 +46,45 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+
 
 /**
- *
+ * 
  * @author ELY
- *
+ * 
  */
 public class ExportdatabaseJspBean
 {
     /**
      * Test the table insertion
-     *
+     * 
      * @param request The {@link HttpServletRequest}
      */
     public void testCreation( HttpServletRequest request )
     {
         FormSubmit formSubmit = FormSubmitHome.findByPrimaryKey( 1, PluginService.getPlugin( FormPlugin.PLUGIN_NAME ) );
-        ResponseFilter filter = new ResponseFilter(  );
+        ResponseFilter filter = new ResponseFilter( );
         filter.setIdForm( 1 );
         formSubmit.setListResponse( ResponseHome.getResponseList( filter,
                 PluginService.getPlugin( FormPlugin.PLUGIN_NAME ) ) );
 
-        for ( Response response : formSubmit.getListResponse(  ) )
+        for ( Response response : formSubmit.getListResponse( ) )
         {
-            byte[] byResponseValue = response.getValueResponse(  );
+            byte[] byResponseValue = response.getValueResponse( );
 
             if ( byResponseValue != null )
             {
-                response.setToStringValueResponse( response.getEntry(  )
-                                                           .getResponseValueForRecap( request, response,
-                        I18nService.getDefaultLocale(  ) ) );
+                response.setToStringValueResponse( response.getEntry( ).getResponseValueForRecap( request, response,
+                        I18nService.getDefaultLocale( ) ) );
             }
             else
             {
-                response.setToStringValueResponse( "" );
+                response.setToStringValueResponse( StringUtils.EMPTY );
             }
         }
 
         ExportdatabaseHome.addFormSubmit( formSubmit, PluginService.getPlugin( FormPlugin.PLUGIN_NAME ),
-            PluginService.getPlugin( ExportdatabasePlugin.PLUGIN_NAME ) );
+                PluginService.getPlugin( ExportdatabasePlugin.PLUGIN_NAME ) );
     }
 }

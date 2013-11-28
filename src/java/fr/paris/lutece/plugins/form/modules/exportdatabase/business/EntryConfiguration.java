@@ -36,14 +36,12 @@ package fr.paris.lutece.plugins.form.modules.exportdatabase.business;
 import fr.paris.lutece.plugins.form.business.EntryHome;
 import fr.paris.lutece.plugins.form.business.IEntry;
 import fr.paris.lutece.plugins.form.service.EntryRemovalListenerService;
-import fr.paris.lutece.plugins.form.service.FormPlugin;
-import fr.paris.lutece.portal.service.plugin.PluginService;
 
 
 /**
- *
+ * 
  * @author ELY
- *
+ * 
  */
 public class EntryConfiguration
 {
@@ -55,9 +53,9 @@ public class EntryConfiguration
     private boolean _bHasReferenceTable;
 
     /**
-         * @return the _bHasReferenceTable
-         */
-    public boolean hasReferenceTable(  )
+     * @return the _bHasReferenceTable
+     */
+    public boolean hasReferenceTable( )
     {
         return _bHasReferenceTable;
     }
@@ -71,22 +69,22 @@ public class EntryConfiguration
     }
 
     /**
-    * Initialize the EntryConfiguration
-    */
-    public static void init(  )
+     * Initialize the EntryConfiguration
+     */
+    public static void init( )
     {
         // Create removal listeners and register them
         if ( _listenerForm == null )
         {
-            _listenerForm = new EntryConfigurationEntryRemovalListener(  );
-            EntryRemovalListenerService.getService(  ).registerListener( _listenerForm );
+            _listenerForm = new EntryConfigurationEntryRemovalListener( );
+            EntryRemovalListenerService.getService( ).registerListener( _listenerForm );
         }
     }
 
     /**
      * @return the idForm
      */
-    public int getIdForm(  )
+    public int getIdForm( )
     {
         return _nIdForm;
     }
@@ -102,7 +100,7 @@ public class EntryConfiguration
     /**
      * @return the idEntry
      */
-    public int getIdEntry(  )
+    public int getIdEntry( )
     {
         return _nIdEntry;
     }
@@ -118,7 +116,7 @@ public class EntryConfiguration
     /**
      * @return the column name
      */
-    public String getColumnName(  )
+    public String getColumnName( )
     {
         return _strColumnName;
     }
@@ -135,24 +133,21 @@ public class EntryConfiguration
      * Get the Entry title
      * @return The entry title
      */
-    public String getEntryTitle(  )
+    public String getEntryTitle( )
     {
-        IEntry entry = EntryHome.findByPrimaryKey( getIdEntry(  ), PluginService.getPlugin( FormPlugin.PLUGIN_NAME ) );
+        IEntry entry = EntryHome.findByPrimaryKey( getIdEntry( ) );
 
         if ( entry != null )
         {
-            return entry.getTitle(  );
+            return entry.getTitle( );
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 
     /**
      * @return the bLongValue
      */
-    public boolean isLongValue(  )
+    public boolean isLongValue( )
     {
         return _bLongValue;
     }

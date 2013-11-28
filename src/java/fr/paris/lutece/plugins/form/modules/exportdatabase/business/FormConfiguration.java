@@ -35,19 +35,17 @@ package fr.paris.lutece.plugins.form.modules.exportdatabase.business;
 
 import fr.paris.lutece.plugins.form.business.EntryHome;
 import fr.paris.lutece.plugins.form.business.IEntry;
-import fr.paris.lutece.plugins.form.service.FormPlugin;
 import fr.paris.lutece.plugins.form.service.FormRemovalListenerService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.plugin.PluginService;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 
 /**
- *
+ * 
  * @author ELY
- *
+ * 
  */
 public class FormConfiguration
 {
@@ -59,20 +57,20 @@ public class FormConfiguration
     /**
      * Initialize the FormConfiguration
      */
-    public static void init(  )
+    public static void init( )
     {
         // Create removal listeners and register them
         if ( _listenerForm == null )
         {
-            _listenerForm = new FormConfigurationFormRemovalListener(  );
-            FormRemovalListenerService.getService(  ).registerListener( _listenerForm );
+            _listenerForm = new FormConfigurationFormRemovalListener( );
+            FormRemovalListenerService.getService( ).registerListener( _listenerForm );
         }
     }
 
     /**
      * @return the idForm
      */
-    public int getIdForm(  )
+    public int getIdForm( )
     {
         return _nIdForm;
     }
@@ -88,7 +86,7 @@ public class FormConfiguration
     /**
      * @return the tableName
      */
-    public String getTableName(  )
+    public String getTableName( )
     {
         return _strTableName;
     }
@@ -104,13 +102,13 @@ public class FormConfiguration
     /**
      * @return the tableNameBlob
      */
-    public String getTableNameBlob(  )
+    public String getTableNameBlob( )
     {
         return _strTableNameBlob;
     }
 
     /**
-     * @param tableName the tableName to set
+     * @param strTableNameBlob the tableName to set
      */
     public void setTableNameBlob( String strTableNameBlob )
     {
@@ -119,33 +117,33 @@ public class FormConfiguration
 
     /**
      * Get the list of {@link EntryConfiguration} objects
-     *
+     * 
      * @param plugin The {@link Plugin}
      * @return The {@link Collection} of {@link EntryConfiguration}
      */
     public Collection<EntryConfiguration> getEntryConfigurationList( Plugin plugin )
     {
-        return EntryConfigurationHome.findEntryConfigurationListByIdForm( getIdForm(  ), plugin );
+        return EntryConfigurationHome.findEntryConfigurationListByIdForm( getIdForm( ), plugin );
     }
 
     /**
-     * Get the list of {@link EntryConfiguration} objects without entry type blob
-     *
+     * Get the list of {@link EntryConfiguration} objects without entry type
+     * blob
+     * 
      * @param plugin The {@link Plugin}
      * @return The {@link Collection} of {@link EntryConfiguration}
      */
     public Collection<EntryConfiguration> getEntryTextConfigurationList( Plugin plugin )
     {
-        Collection<EntryConfiguration> entryConfigurationList = EntryConfigurationHome.findEntryConfigurationListByIdForm( getIdForm(  ),
-                plugin );
-        Collection<EntryConfiguration> entryTextConfigurationList = new ArrayList<EntryConfiguration>(  );
+        Collection<EntryConfiguration> entryConfigurationList = EntryConfigurationHome
+                .findEntryConfigurationListByIdForm( getIdForm( ), plugin );
+        Collection<EntryConfiguration> entryTextConfigurationList = new ArrayList<EntryConfiguration>( );
 
         for ( EntryConfiguration entryConfiguration : entryConfigurationList )
         {
-            IEntry entry = EntryHome.findByPrimaryKey( entryConfiguration.getIdEntry(  ),
-                    PluginService.getPlugin( FormPlugin.PLUGIN_NAME ) );
+            IEntry entry = EntryHome.findByPrimaryKey( entryConfiguration.getIdEntry( ) );
 
-            if ( entry.getEntryType(  ).getIdType(  ) != ExportdatabaseHome.ENTRY_TYPE_FILE_IDENTIFIER )
+            if ( entry.getEntryType( ).getIdType( ) != ExportdatabaseHome.ENTRY_TYPE_FILE_IDENTIFIER )
             {
                 entryTextConfigurationList.add( entryConfiguration );
             }

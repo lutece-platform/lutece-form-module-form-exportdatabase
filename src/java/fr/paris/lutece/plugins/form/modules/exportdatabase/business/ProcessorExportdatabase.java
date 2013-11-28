@@ -33,8 +33,6 @@
  */
 package fr.paris.lutece.plugins.form.modules.exportdatabase.business;
 
-import fr.paris.lutece.plugins.form.business.Field;
-import fr.paris.lutece.plugins.form.business.FieldHome;
 import fr.paris.lutece.plugins.form.business.Form;
 import fr.paris.lutece.plugins.form.business.FormHome;
 import fr.paris.lutece.plugins.form.business.FormSubmit;
@@ -50,7 +48,6 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Messages;
-import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.ArrayList;
@@ -63,9 +60,9 @@ import javax.servlet.http.HttpServletRequest;
 
 
 /**
- *
+ * 
  * @author ELY
- *
+ * 
  */
 public class ProcessorExportdatabase extends OutputProcessor
 {
@@ -114,33 +111,37 @@ public class ProcessorExportdatabase extends OutputProcessor
 
     /*
      * (non-Javadoc)
-     * @see fr.paris.lutece.plugins.form.business.outputprocessor.IOutputProcessor#getOutputConfigForm(fr.paris.lutece.plugins.form.business.Form, java.util.Locale, fr.paris.lutece.portal.service.plugin.Plugin)
+     * 
+     * @see
+     * fr.paris.lutece.plugins.form.business.outputprocessor.IOutputProcessor
+     * #getOutputConfigForm(fr.paris.lutece.plugins.form.business.Form,
+     * java.util.Locale, fr.paris.lutece.portal.service.plugin.Plugin)
      */
-    public String getOutputConfigForm( HttpServletRequest request,Form form, Locale locale, Plugin plugin )
+    public String getOutputConfigForm( HttpServletRequest request, Form form, Locale locale, Plugin plugin )
     {
         Plugin pluginExportdatabase = PluginService.getPlugin( ExportdatabasePlugin.PLUGIN_NAME );
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        FormConfiguration formConfiguration = FormConfigurationHome.findByPrimaryKey( form.getIdForm(  ),
+        Map<String, Object> model = new HashMap<String, Object>( );
+        FormConfiguration formConfiguration = FormConfigurationHome.findByPrimaryKey( form.getIdForm( ),
                 pluginExportdatabase );
 
         if ( formConfiguration == null )
         {
-            formConfiguration = new FormConfiguration(  );
-            formConfiguration.setIdForm( form.getIdForm(  ) );
+            formConfiguration = new FormConfiguration( );
+            formConfiguration.setIdForm( form.getIdForm( ) );
         }
 
-        Collection<EntryConfiguration> entryConfigurationList = new ArrayList<EntryConfiguration>(  );
+        Collection<EntryConfiguration> entryConfigurationList = new ArrayList<EntryConfiguration>( );
 
-        for ( IEntry entry : FormUtils.getAllQuestionList( form.getIdForm(  ), plugin ) )
+        for ( IEntry entry : FormUtils.getAllQuestionList( form.getIdForm( ), plugin ) )
         {
-            EntryConfiguration entryConfigurationFromEntry = EntryConfigurationHome.findByPrimaryKey( form.getIdForm(  ),
-                    entry.getIdEntry(  ), pluginExportdatabase );
+            EntryConfiguration entryConfigurationFromEntry = EntryConfigurationHome.findByPrimaryKey(
+                    form.getIdForm( ), entry.getIdEntry( ), pluginExportdatabase );
 
             if ( entryConfigurationFromEntry == null )
             {
-                entryConfigurationFromEntry = new EntryConfiguration(  );
-                entryConfigurationFromEntry.setIdEntry( entry.getIdEntry(  ) );
-                entryConfigurationFromEntry.setIdForm( form.getIdForm(  ) );
+                entryConfigurationFromEntry = new EntryConfiguration( );
+                entryConfigurationFromEntry.setIdEntry( entry.getIdEntry( ) );
+                entryConfigurationFromEntry.setIdForm( form.getIdForm( ) );
 
                 //entryConfigurationFromEntry.setColumnName( "c" + entry.getIdEntry(  ) ); //Only for dev
             }
@@ -155,30 +156,34 @@ public class ProcessorExportdatabase extends OutputProcessor
 
         int nFormSubmit = 0;
 
-        if ( ExportdatabaseHome.tableExists( formConfiguration.getTableName(  ), pluginExportdatabase ) )
+        if ( ExportdatabaseHome.tableExists( formConfiguration.getTableName( ), pluginExportdatabase ) )
         {
             nFormSubmit = ExportdatabaseHome.countFormSubmitted( formConfiguration, pluginExportdatabase );
         }
 
         model.put( MARK_FORM_EXPORTED, nFormSubmit );
         model.put( MARK_AUTO_FILL,
-            AppPropertiesService.getProperty( PROPERTY_PREFIX_AUTO_FILL, DEFAULT_PREFIX_AUTO_FILL ) );
+                AppPropertiesService.getProperty( PROPERTY_PREFIX_AUTO_FILL, DEFAULT_PREFIX_AUTO_FILL ) );
 
-        ResponseFilter filter = new ResponseFilter(  );
-        filter.setIdForm( form.getIdForm(  ) );
+        ResponseFilter filter = new ResponseFilter( );
+        filter.setIdForm( form.getIdForm( ) );
 
         int nCountFormSubmit = FormSubmitHome.getCountFormSubmit( filter, plugin );
         model.put( MARK_FORM_SUBMIT, nCountFormSubmit );
-        model.put( MARK_REF_LIST_ENTRY, FormUtils.getRefListAllQuestions( form.getIdForm(  ), plugin ) );
+        model.put( MARK_REF_LIST_ENTRY, FormUtils.getRefListAllQuestions( form.getIdForm( ), plugin ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONFIGURATION_EXPORTDATABASE, locale, model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /*
      * (non-Javadoc)
-     * @see fr.paris.lutece.plugins.form.business.outputprocessor.IOutputProcessor#doOutputConfigForm(javax.servlet.http.HttpServletRequest, java.util.Locale, fr.paris.lutece.portal.service.plugin.Plugin)
+     * 
+     * @see
+     * fr.paris.lutece.plugins.form.business.outputprocessor.IOutputProcessor
+     * #doOutputConfigForm(javax.servlet.http.HttpServletRequest,
+     * java.util.Locale, fr.paris.lutece.portal.service.plugin.Plugin)
      */
     public String doOutputConfigForm( HttpServletRequest request, Locale locale, Plugin plugin )
     {
@@ -227,13 +232,18 @@ public class ProcessorExportdatabase extends OutputProcessor
 
     /*
      * (non-Javadoc)
-     * @see fr.paris.lutece.plugins.form.business.outputprocessor.IOutputProcessor#process(fr.paris.lutece.plugins.form.business.FormSubmit, javax.servlet.http.HttpServletRequest, fr.paris.lutece.portal.service.plugin.Plugin)
+     * 
+     * @see
+     * fr.paris.lutece.plugins.form.business.outputprocessor.IOutputProcessor
+     * #process(fr.paris.lutece.plugins.form.business.FormSubmit,
+     * javax.servlet.http.HttpServletRequest,
+     * fr.paris.lutece.portal.service.plugin.Plugin)
      */
     public String process( FormSubmit formSubmit, HttpServletRequest request, Plugin plugin )
     {
         Plugin pluginExportdatabase = PluginService.getPlugin( ExportdatabasePlugin.PLUGIN_NAME );
-        FormConfiguration formConfiguration = FormConfigurationHome.findByPrimaryKey( formSubmit.getForm(  ).getIdForm(  ),
-                pluginExportdatabase );
+        FormConfiguration formConfiguration = FormConfigurationHome.findByPrimaryKey(
+                formSubmit.getForm( ).getIdForm( ), pluginExportdatabase );
 
         if ( formConfiguration == null )
         {
@@ -242,8 +252,8 @@ public class ProcessorExportdatabase extends OutputProcessor
             return null; //FIXME
         }
 
-        if ( !ExportdatabaseHome.tableExists( formConfiguration.getTableName(  ), pluginExportdatabase ) ||
-                !ExportdatabaseHome.tableExists( formConfiguration.getTableNameBlob(  ), pluginExportdatabase ) )
+        if ( !ExportdatabaseHome.tableExists( formConfiguration.getTableName( ), pluginExportdatabase )
+                || !ExportdatabaseHome.tableExists( formConfiguration.getTableNameBlob( ), pluginExportdatabase ) )
         {
             AppLogService.error( "Error exportdatabase : table does not exists !" );
 
@@ -257,14 +267,14 @@ public class ProcessorExportdatabase extends OutputProcessor
 
     /**
      * Process the configuration settings
-     *
+     * 
      * @param request The {@link HttpServletRequest}
      * @param form The {@link Form} linked to this outputProcessor
      * @param plugin The {@link Plugin}
      * @return An error message key or null if no error
      */
     private String doActionSetConfiguration( HttpServletRequest request, Form form, Plugin plugin,
-        Plugin pluginExportdatabase )
+            Plugin pluginExportdatabase )
     {
         String strTableName = request.getParameter( PARAMETER_ID_TABLE_NAME );
         String strExportAll = request.getParameter( PARAMETER_EXPORT_ALL );
@@ -275,10 +285,10 @@ public class ProcessorExportdatabase extends OutputProcessor
         }
 
         // Set the table name blob
-        String strTableNameBlob = strTableName +
-            AppPropertiesService.getProperty( PROPERTY_SUFFIX_TABLE_NAME_BLOB, DEFAULT_SUFFIX_TABLE_NAME_BLOB );
+        String strTableNameBlob = strTableName
+                + AppPropertiesService.getProperty( PROPERTY_SUFFIX_TABLE_NAME_BLOB, DEFAULT_SUFFIX_TABLE_NAME_BLOB );
 
-        if ( ( strTableNameBlob == null ) || strTableNameBlob.matches( EMPTY_STRING ) )
+        if ( strTableNameBlob.matches( EMPTY_STRING ) )
         {
             return Messages.MANDATORY_FIELDS;
         }
@@ -288,13 +298,13 @@ public class ProcessorExportdatabase extends OutputProcessor
             return MESSAGE_ERROR_TABLE_NAME;
         }
 
-        FormConfiguration formConfiguration = FormConfigurationHome.findByPrimaryKey( form.getIdForm(  ),
+        FormConfiguration formConfiguration = FormConfigurationHome.findByPrimaryKey( form.getIdForm( ),
                 pluginExportdatabase );
 
         if ( formConfiguration == null )
         {
-            formConfiguration = new FormConfiguration(  );
-            formConfiguration.setIdForm( form.getIdForm(  ) );
+            formConfiguration = new FormConfiguration( );
+            formConfiguration.setIdForm( form.getIdForm( ) );
             formConfiguration.setTableName( strTableName );
             formConfiguration.setTableNameBlob( strTableNameBlob );
             FormConfigurationHome.insert( formConfiguration, pluginExportdatabase );
@@ -311,16 +321,16 @@ public class ProcessorExportdatabase extends OutputProcessor
 
         for ( FormConfiguration formConfigurationTest : formConfigurationList )
         {
-            if ( formConfigurationTest.getTableName(  ).equalsIgnoreCase( formConfiguration.getTableName(  ) ) &&
-                    ( formConfigurationTest.getIdForm(  ) != formConfiguration.getIdForm(  ) ) )
+            if ( formConfigurationTest.getTableName( ).equalsIgnoreCase( formConfiguration.getTableName( ) )
+                    && ( formConfigurationTest.getIdForm( ) != formConfiguration.getIdForm( ) ) )
             {
                 return MESSAGE_TABLE_NAME_ALREADY_EXISTS;
             }
         }
 
-        for ( IEntry entry : FormUtils.getAllQuestionList( form.getIdForm(  ), plugin ) )
+        for ( IEntry entry : FormUtils.getAllQuestionList( form.getIdForm( ), plugin ) )
         {
-            String strColumnName = request.getParameter( PARAMETER_ID_COLUMN_NAME_PREFIX + entry.getIdEntry(  ) );
+            String strColumnName = request.getParameter( PARAMETER_ID_COLUMN_NAME_PREFIX + entry.getIdEntry( ) );
 
             if ( ( strColumnName == null ) || ( strColumnName.matches( EMPTY_STRING ) ) )
             {
@@ -332,31 +342,31 @@ public class ProcessorExportdatabase extends OutputProcessor
                 return MESSAGE_ERROR_COLUMN_NAME;
             }
 
-            EntryConfiguration entryConfigurationFromEntry = EntryConfigurationHome.findByPrimaryKey( form.getIdForm(  ),
-                    entry.getIdEntry(  ), pluginExportdatabase );
+            EntryConfiguration entryConfigurationFromEntry = EntryConfigurationHome.findByPrimaryKey(
+                    form.getIdForm( ), entry.getIdEntry( ), pluginExportdatabase );
 
             if ( entryConfigurationFromEntry == null )
             {
-                entryConfigurationFromEntry = new EntryConfiguration(  );
-                entryConfigurationFromEntry.setIdEntry( entry.getIdEntry(  ) );
-                entryConfigurationFromEntry.setIdForm( form.getIdForm(  ) );
+                entryConfigurationFromEntry = new EntryConfiguration( );
+                entryConfigurationFromEntry.setIdEntry( entry.getIdEntry( ) );
+                entryConfigurationFromEntry.setIdForm( form.getIdForm( ) );
                 entryConfigurationFromEntry.setColumnName( strColumnName );
-                entryConfigurationFromEntry.setLongValue( isLongValue( entryConfigurationFromEntry, entry ) );
-                entryConfigurationFromEntry.setHasReferenceTable( hasReferenceTable( entryConfigurationFromEntry, entry ) );
+                entryConfigurationFromEntry.setLongValue( isLongValue( entry ) );
+                entryConfigurationFromEntry.setHasReferenceTable( hasReferenceTable( entry ) );
                 EntryConfigurationHome.insert( entryConfigurationFromEntry, pluginExportdatabase );
             }
             else
             {
                 entryConfigurationFromEntry.setColumnName( strColumnName );
-                entryConfigurationFromEntry.setLongValue( isLongValue( entryConfigurationFromEntry, entry ) );
-                entryConfigurationFromEntry.setHasReferenceTable( hasReferenceTable( entryConfigurationFromEntry, entry ) );
+                entryConfigurationFromEntry.setLongValue( isLongValue( entry ) );
+                entryConfigurationFromEntry.setHasReferenceTable( hasReferenceTable( entry ) );
                 EntryConfigurationHome.store( entryConfigurationFromEntry, pluginExportdatabase );
             }
         }
 
         // Create the tables
-        if ( !ExportdatabaseHome.tableExists( formConfiguration.getTableName(  ), pluginExportdatabase ) &&
-                !ExportdatabaseHome.tableExists( formConfiguration.getTableNameBlob(  ), pluginExportdatabase ) )
+        if ( !ExportdatabaseHome.tableExists( formConfiguration.getTableName( ), pluginExportdatabase )
+                && !ExportdatabaseHome.tableExists( formConfiguration.getTableNameBlob( ), pluginExportdatabase ) )
         {
             ExportdatabaseHome.createTables( formConfiguration, plugin, pluginExportdatabase );
         }
@@ -371,16 +381,16 @@ public class ProcessorExportdatabase extends OutputProcessor
 
     /**
      * Process deletion of export tables
-     *
+     * 
      * @param request The {@link HttpServletRequest}
      * @param form The {@link Form} linked to this outputProcessor
      * @param plugin The {@link Plugin}
      * @return An error message key or null if no error
      */
     private String doActionDeleteTables( HttpServletRequest request, Form form, Plugin plugin,
-        Plugin pluginExportdatabase )
+            Plugin pluginExportdatabase )
     {
-        FormConfiguration formConfiguration = FormConfigurationHome.findByPrimaryKey( form.getIdForm(  ),
+        FormConfiguration formConfiguration = FormConfigurationHome.findByPrimaryKey( form.getIdForm( ),
                 pluginExportdatabase );
 
         ExportdatabaseHome.dropTables( formConfiguration, plugin, pluginExportdatabase );
@@ -390,32 +400,33 @@ public class ProcessorExportdatabase extends OutputProcessor
 
     /**
      * Process deletion of configuration
-     *
+     * 
      * @param request The {@link HttpServletRequest}
      * @param form The {@link Form} linked to this outputProcessor
      * @param plugin The {@link Plugin}
      * @return An error message key or null if no error
      */
     private String doActionDeleteConfiguration( HttpServletRequest request, Form form, Plugin plugin,
-        Plugin pluginExportdatabase )
+            Plugin pluginExportdatabase )
     {
-        EntryConfigurationHome.deleteByForm( form.getIdForm(  ), pluginExportdatabase );
-        FormConfigurationHome.delete( form.getIdForm(  ), pluginExportdatabase );
+        EntryConfigurationHome.deleteByForm( form.getIdForm( ), pluginExportdatabase );
+        FormConfigurationHome.delete( form.getIdForm( ), pluginExportdatabase );
 
         return null;
     }
 
     /**
-     * Process the deletion of export table + re-export all submitted forms for this form
+     * Process the deletion of export table + re-export all submitted forms for
+     * this form
      * @param request The {@link HttpServletRequest}
      * @param form The {@link Form} linked to this outputProcessor
      * @param plugin The {@link Plugin}
      * @return An error message key or null if no error
      */
     private String doActionDeleteTablesAndExportAllFormSubmit( HttpServletRequest request, Form form, Plugin plugin,
-        Plugin pluginExportdatabase )
+            Plugin pluginExportdatabase )
     {
-        FormConfiguration formConfiguration = FormConfigurationHome.findByPrimaryKey( form.getIdForm(  ),
+        FormConfiguration formConfiguration = FormConfigurationHome.findByPrimaryKey( form.getIdForm( ),
                 pluginExportdatabase );
 
         ExportdatabaseHome.dropTables( formConfiguration, plugin, pluginExportdatabase );
@@ -425,11 +436,11 @@ public class ProcessorExportdatabase extends OutputProcessor
         return null;
     }
 
-    private boolean isLongValue( EntryConfiguration entryConfiguration, IEntry entry )
+    private boolean isLongValue( IEntry entry )
     {
         for ( int nEntryTypeId : arrayEntryTypeLong )
         {
-            if ( entry.getEntryType(  ).getIdType(  ) == nEntryTypeId )
+            if ( entry.getEntryType( ).getIdType( ) == nEntryTypeId )
             {
                 return true;
             }
@@ -438,11 +449,11 @@ public class ProcessorExportdatabase extends OutputProcessor
         return false;
     }
 
-    private boolean hasReferenceTable( EntryConfiguration entryConfiguration, IEntry entry )
+    private boolean hasReferenceTable( IEntry entry )
     {
         for ( int nEntryTypeId : arrayEntryTypeRef )
         {
-            if ( entry.getEntryType(  ).getIdType(  ) == nEntryTypeId )
+            if ( entry.getEntryType( ).getIdType( ) == nEntryTypeId )
             {
                 // Create reference table
                 return true;

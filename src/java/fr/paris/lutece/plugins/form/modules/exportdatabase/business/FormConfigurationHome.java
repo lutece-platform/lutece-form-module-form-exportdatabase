@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.plugins.form.modules.exportdatabase.business;
 
-import fr.paris.lutece.plugins.form.modules.exportdatabase.service.ExportdatabasePlugin;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
@@ -48,8 +47,8 @@ import java.util.Collection;
 public class FormConfigurationHome
 {
     // Static variable pointed at the DAO instance
-    private static IFormConfigurationDAO _dao = (IFormConfigurationDAO) SpringContextService.getPluginBean( ExportdatabasePlugin.PLUGIN_NAME,
-            "formConfigurationDAO" );
+    private static IFormConfigurationDAO _dao = SpringContextService
+            .getBean( "form-exportdatabase.formConfigurationDAO" );
 
     /**
      * Private constructor - this class need not be instantiated

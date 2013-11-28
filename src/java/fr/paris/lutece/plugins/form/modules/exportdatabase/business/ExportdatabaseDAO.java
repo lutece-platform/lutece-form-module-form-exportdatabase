@@ -40,7 +40,6 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.sql.Timestamp;
-
 import java.util.Collection;
 
 
@@ -70,10 +69,6 @@ public class ExportdatabaseDAO implements IExportdatabaseDAO
     private static final String SQL_QUERY_CREATE_TABLE_TYPE_SHORT = " VARCHAR(255) ";
     private static final String SQL_QUERY_CREATE_TABLE_TYPE_LONG = " LONG VARCHAR ";
     private static final String SQL_QUERY_CREATE_TABLE_PK = " PRIMARY KEY(id_formsubmit) ";
-    private static final String SQL_QUERY_CREATE_TABLE_CONSTRAINT = " CONSTRAINT ";
-    private static final String SQL_QUERY_CREATE_TABLE_FK_1 = " FOREIGN KEY (";
-    private static final String SQL_QUERY_CREATE_TABLE_FK_2 = ")  REFERENCES ";
-    private static final String SQL_QUERY_CREATE_TABLE_FK_3 = "(ref_key) ";
     private static final String SQL_QUERY_CREATE_TABLE_END_CREATE = " )";
     private static final String SQL_QUERY_CREATE_TABLE_BLOB_END = " ( id_formsubmit INT NOT NULL, " +
         "entry_name VARCHAR(255) NOT NULL, file_name VARCHAR(100) NOT NULL, " +
@@ -82,7 +77,6 @@ public class ExportdatabaseDAO implements IExportdatabaseDAO
     private static final String SQL_QUERY_COUNT_FORM_SUBMIT = " SELECT COUNT(id_formsubmit) FROM ";
     private static final String SQL_QUERY_CREATE_REFERENCE_TABLE = "( ref_key VARCHAR(255), ref_value VARCHAR(255), PRIMARY KEY(ref_key));";
     private static final String SQL_QUERY_INSERT_REFERENCE_TABLE = " ( ref_key, ref_value ) VALUE ( ?, ? );";
-    private static final String FOREIGN_KEY_PREFIX = "fk_";
     private static final String TAG_REF_TABLE = "_ref_";
 
     /*

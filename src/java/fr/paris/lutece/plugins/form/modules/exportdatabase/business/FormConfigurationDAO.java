@@ -36,8 +36,6 @@ package fr.paris.lutece.plugins.form.modules.exportdatabase.business;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.util.sql.DAOUtil;
 
-import java.lang.reflect.Array;
-
 import java.util.ArrayList;
 import java.util.Collection;
 

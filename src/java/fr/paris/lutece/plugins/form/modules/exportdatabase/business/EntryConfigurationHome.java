@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.plugins.form.modules.exportdatabase.business;
 
-import fr.paris.lutece.plugins.form.modules.exportdatabase.service.ExportdatabasePlugin;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
@@ -41,26 +40,26 @@ import java.util.Collection;
 
 
 /**
- *
+ * 
  * @author ELY
- *
+ * 
  */
 public class EntryConfigurationHome
 {
     // Static variable pointed at the DAO instance
-    private static IEntryConfigurationDAO _dao = (IEntryConfigurationDAO) SpringContextService.getPluginBean( ExportdatabasePlugin.PLUGIN_NAME,
-            "entryConfigurationDAO" );
+    private static IEntryConfigurationDAO _dao = SpringContextService
+            .getBean( "form-exportdatabase.entryConfigurationDAO" );
 
     /**
      * Private constructor - this class need not be instantiated
      */
-    private EntryConfigurationHome(  )
+    private EntryConfigurationHome( )
     {
     }
 
     /**
      * Find the {@link EntryConfiguration} by ids
-     *
+     * 
      * @param nIdForm The form id
      * @param nIdEntry The entry id
      * @param plugin The {@link Plugin}
@@ -73,7 +72,7 @@ public class EntryConfigurationHome
 
     /**
      * Find the {@link EntryConfiguration} list from the form identifier
-     *
+     * 
      * @param nIdForm The form identifier
      * @param plugin The {@link Plugin}
      * @return The {@link Collection} of {@link EntryConfiguration}
@@ -85,7 +84,7 @@ public class EntryConfigurationHome
 
     /**
      * Delete an Entry configuration
-     *
+     * 
      * @param nIdForm The form identifier
      * @param nIdEntry The entry identifier
      * @param plugin The plugin
@@ -97,7 +96,7 @@ public class EntryConfigurationHome
 
     /**
      * Delete all Entry configuration by Form
-     *
+     * 
      * @param nIdForm The form identifier
      * @param plugin The plugin
      */
@@ -108,7 +107,7 @@ public class EntryConfigurationHome
 
     /**
      * Insert a new Entry configuration into database
-     *
+     * 
      * @param entryConfiguration The new {@link EntryConfiguration}
      * @param plugin The plugin
      */
@@ -119,7 +118,7 @@ public class EntryConfigurationHome
 
     /**
      * Update an existing {@link EntryConfiguration}
-     *
+     * 
      * @param entryConfiguration The {@link EntryConfiguration} to update
      * @param plugin The plugin
      */

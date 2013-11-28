@@ -38,6 +38,9 @@ import fr.paris.lutece.plugins.form.modules.exportdatabase.business.FormConfigur
 import fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation;
 
 
+/**
+ * Export database plugin
+ */
 public class ExportdatabasePlugin extends PluginDefaultImplementation
 {
     public static final String PLUGIN_NAME = "form-exportdatabase";
