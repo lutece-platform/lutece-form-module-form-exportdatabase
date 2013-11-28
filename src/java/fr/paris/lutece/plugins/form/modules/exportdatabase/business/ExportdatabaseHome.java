@@ -95,38 +95,41 @@ public class ExportdatabaseHome
      * Create the tables
      * 
      * @param formConfiguration the {@link FormConfiguration}
-     * @param plugin the {@link Plugin}
+     * @param pluginForm The form plugin
+     * @param pluginExportDatabase The export database plugin
      */
-    public static void createTables( FormConfiguration formConfiguration, Plugin pluginForm, Plugin pluginExportdatabase )
+    public static void createTables( FormConfiguration formConfiguration, Plugin pluginForm, Plugin pluginExportDatabase )
     {
         Form form = FormHome.findByPrimaryKey( formConfiguration.getIdForm( ), pluginForm );
         // Create references tables
-        createReferencesTables( formConfiguration, form, pluginForm, pluginExportdatabase );
-        _dao.createTables( formConfiguration, pluginExportdatabase );
+        createReferencesTables( formConfiguration, form, pluginForm, pluginExportDatabase );
+        _dao.createTables( formConfiguration, pluginExportDatabase );
     }
 
     /**
      * Drop the export tables
      * 
      * @param formConfiguration The {@link FormConfiguration}
-     * @param plugin The {@link Plugin}
+     * @param pluginForm The form plugin
+     * @param pluginExportDatabase The export database plugin
      */
-    public static void dropTables( FormConfiguration formConfiguration, Plugin pluginForm, Plugin pluginExportdatabase )
+    public static void dropTables( FormConfiguration formConfiguration, Plugin pluginForm, Plugin pluginExportDatabase )
     {
-        _dao.dropTable( formConfiguration.getTableName( ), pluginExportdatabase );
-        _dao.dropTable( formConfiguration.getTableNameBlob( ), pluginExportdatabase );
+        _dao.dropTable( formConfiguration.getTableName( ), pluginExportDatabase );
+        _dao.dropTable( formConfiguration.getTableNameBlob( ), pluginExportDatabase );
 
         Form form = FormHome.findByPrimaryKey( formConfiguration.getIdForm( ), pluginForm );
-        dropReferencesTables( formConfiguration, form, pluginForm, pluginExportdatabase );
+        dropReferencesTables( formConfiguration, form, pluginForm, pluginExportDatabase );
     }
 
     /**
      * Export all formSubmit for Form
      * 
      * @param form the {@link Form}
-     * @param plugin The {@link Plugin}
+     * @param pluginForm The form plugin
+     * @param pluginExportDatabase The export database plugin
      */
-    public static void exportAllFormSubmit( Form form, Plugin pluginForm, Plugin FormExportDatabase )
+    public static void exportAllFormSubmit( Form form, Plugin pluginForm, Plugin pluginExportDatabase )
     {
         ResponseFilter filter = new ResponseFilter( );
         filter.setIdForm( form.getIdForm( ) );
@@ -135,7 +138,7 @@ public class ExportdatabaseHome
 
         for ( FormSubmit formSubmit : formSubmitList )
         {
-            addFormSubmit( formSubmit, pluginForm, FormExportDatabase );
+            addFormSubmit( formSubmit, pluginForm, pluginExportDatabase );
         }
     }
 
@@ -155,7 +158,8 @@ public class ExportdatabaseHome
      * Add records corresponding to submitted forms
      * 
      * @param formSubmit The submitted form
-     * @param plugin The plugin
+     * @param pluginForm The form plugin
+     * @param pluginExportDatabase The export database plugin
      */
     public static void addFormSubmit( FormSubmit formSubmit, Plugin pluginForm, Plugin pluginExportDatabase )
     {
@@ -168,7 +172,7 @@ public class ExportdatabaseHome
         filter.setIdForm( formSubmit.getIdFormSubmit( ) );
         HashMap<Integer, List<Response>> mapEntryListResponses = new HashMap<Integer, List<Response>>( );
         Response responseTemp;
-        for ( Response response : ResponseHome.getResponseList( filter, pluginForm ) )
+        for ( Response response : ResponseHome.getResponseList( filter ) )
         {
             if ( !mapEntryListResponses.containsKey( response.getEntry( ).getIdEntry( ) ) )
             {
@@ -189,8 +193,9 @@ public class ExportdatabaseHome
 
                     responseTemp = mapEntryListResponses.get( entryConfiguration.getIdEntry( ) ).get( 0 );
                     _dao.createFileToTable( formConfiguration.getTableNameBlob( ), formSubmit.getIdFormSubmit( ),
-                            entryConfiguration.getColumnName( ), responseTemp.getFileName( ),
-                            responseTemp.getValueResponse( ), pluginExportDatabase );
+                            entryConfiguration.getColumnName( ), responseTemp.getFile( ) != null ? responseTemp
+                                    .getFile( ).getTitle( ) : null, responseTemp.getValueResponse( ),
+                            pluginExportDatabase );
                 }
                 else
                 {
@@ -272,7 +277,7 @@ public class ExportdatabaseHome
         for ( Response response : listResponse )
         {
             nCpt++;
-            if ( response.getValueResponse( ) != null )
+            if ( response.getResponseValue( ) != null )
             {
                 strValue += response.getEntry( ).getResponseValueForExport( null, response,
                         I18nService.getDefaultLocale( ) );
