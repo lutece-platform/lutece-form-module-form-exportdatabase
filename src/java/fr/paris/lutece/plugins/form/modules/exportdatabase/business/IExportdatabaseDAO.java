@@ -39,24 +39,27 @@ import fr.paris.lutece.util.ReferenceList;
 import java.sql.Timestamp;
 
 
+/**
+ * Interface of export database DAO
+ */
 public interface IExportdatabaseDAO
 {
     /**
      * Insert a new record in the table.
-     *
+     * 
      * @param nIdFormSubmit the FormSubmit id
      * @param dateResponse the date of the response
-     * @param The Ip of the host response
+     * @param strIp The Ip of the host response
      * @param strTableName The table name
      * @param listItems The list of Items
      * @param plugin The {@link Plugin}
      */
     void createRecordToTable( int nIdFormSubmit, Timestamp dateResponse, String strIp, String strTableName,
-        ReferenceList listItems, Plugin plugin );
+            ReferenceList listItems, Plugin plugin );
 
     /**
      * Store a new file in the table.
-     *
+     * 
      * @param strTableName The table name
      * @param nIdFormSubmit the FormSubmit id
      * @param strEntryName The entry name
@@ -66,7 +69,7 @@ public interface IExportdatabaseDAO
      * @param plugin The {@link Plugin}
      */
     void createFileToTable( String strTableName, int nIdFormSubmit, String strEntryName, String strFileName,
-        byte[] byteFileContent, Plugin plugin );
+            byte[] byteFileContent, Plugin plugin );
 
     /**
      * Test if the table exist
@@ -86,7 +89,8 @@ public interface IExportdatabaseDAO
     /**
      * Create a reference table and insert the list of items
      * @param strExportTableName the export table name
-     * @param strColumnName the column name concerned by the foreign key with the reference table
+     * @param strColumnName the column name concerned by the foreign key with
+     *            the reference table
      * @param listItems the list of items to add into reference table
      * @param plugin the plugin
      */
@@ -94,7 +98,7 @@ public interface IExportdatabaseDAO
 
     /**
      * Drop the export table
-     *
+     * 
      * @param strTableName The name of the table to delete
      * @param plugin The {@link Plugin}
      */
@@ -102,16 +106,17 @@ public interface IExportdatabaseDAO
 
     /**
      * Drop the reference table
-     *
+     * 
      * @param strExportTableName the export table name
-     * @param strColumnName the column name concerned by the foreign key with the reference table
+     * @param strColumnName the column name concerned by the foreign key with
+     *            the reference table
      * @param plugin The {@link Plugin}
      */
     void dropReferenceTable( String strExportTableName, String strColumnName, Plugin plugin );
 
     /**
      * Get the number of submitted forms in the export table
-     *
+     * 
      * @param formConfiguration The {@link FormConfiguration}
      * @param plugin The {@link Plugin}
      * @return the number of submitted forms

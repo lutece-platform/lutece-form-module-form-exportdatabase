@@ -43,14 +43,17 @@ import fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation;
  */
 public class ExportdatabasePlugin extends PluginDefaultImplementation
 {
+    /**
+     * Name of the form export database module
+     */
     public static final String PLUGIN_NAME = "form-exportdatabase";
 
     /**
      * Initialize the module form exportdatabase
      */
-    public void init(  )
+    public void init( )
     {
-        FormConfiguration.init(  );
-        EntryConfiguration.init(  );
+        FormConfiguration.init( );
+        EntryConfiguration.init( );
     }
 }

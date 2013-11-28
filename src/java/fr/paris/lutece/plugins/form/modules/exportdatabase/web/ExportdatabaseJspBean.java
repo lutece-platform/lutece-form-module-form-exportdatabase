@@ -66,8 +66,7 @@ public class ExportdatabaseJspBean
         FormSubmit formSubmit = FormSubmitHome.findByPrimaryKey( 1, PluginService.getPlugin( FormPlugin.PLUGIN_NAME ) );
         ResponseFilter filter = new ResponseFilter( );
         filter.setIdForm( 1 );
-        formSubmit.setListResponse( ResponseHome.getResponseList( filter,
-                PluginService.getPlugin( FormPlugin.PLUGIN_NAME ) ) );
+        formSubmit.setListResponse( ResponseHome.getResponseList( filter ) );
 
         for ( Response response : formSubmit.getListResponse( ) )
         {
