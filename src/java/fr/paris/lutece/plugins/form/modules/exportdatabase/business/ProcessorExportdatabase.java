@@ -106,8 +106,8 @@ public class ProcessorExportdatabase extends OutputProcessor
     private static final String ACTION_DELETE_TABLES = "delete_exporttables";
     private static final String ACTION_DELETE_CONFIGURATION = "delete_configuration";
     private static final String ACTION_DELETE_AND_EXPORT_ALL = "delete_exportall";
-    private static int[] arrayEntryTypeLong = new int[] { 3, 7 };
-    private static int[] arrayEntryTypeRef = new int[] { 1, 2, 5 };
+    private static int[] _arrayEntryTypeLong = new int[] { 3, 7 };
+    private static int[] _arrayEntryTypeRef = new int[] { 1, 2, 5 };
 
     /*
      * (non-Javadoc)
@@ -438,7 +438,7 @@ public class ProcessorExportdatabase extends OutputProcessor
 
     private boolean isLongValue( IEntry entry )
     {
-        for ( int nEntryTypeId : arrayEntryTypeLong )
+        for ( int nEntryTypeId : _arrayEntryTypeLong )
         {
             if ( entry.getEntryType( ).getIdType( ) == nEntryTypeId )
             {
@@ -451,7 +451,7 @@ public class ProcessorExportdatabase extends OutputProcessor
 
     private boolean hasReferenceTable( IEntry entry )
     {
-        for ( int nEntryTypeId : arrayEntryTypeRef )
+        for ( int nEntryTypeId : _arrayEntryTypeRef )
         {
             if ( entry.getEntryType( ).getIdType( ) == nEntryTypeId )
             {

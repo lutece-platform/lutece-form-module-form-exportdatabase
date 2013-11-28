@@ -41,9 +41,9 @@ import java.util.Collection;
 
 
 /**
- *
+ * 
  * @author ELY
- *
+ * 
  */
 public class FormConfigurationDAO implements IFormConfigurationDAO
 {
@@ -55,36 +55,38 @@ public class FormConfigurationDAO implements IFormConfigurationDAO
 
     /**
      * Find all {@link FormConfiguration}
-     *
+     * 
      * @param plugin The {@link Plugin}
      * @return The {@link FormConfiguration} or null if not exists
      */
     public Collection<FormConfiguration> findAll( Plugin plugin )
     {
-        Collection<FormConfiguration> formConfigurationList = new ArrayList<FormConfiguration>(  );
+        Collection<FormConfiguration> formConfigurationList = new ArrayList<FormConfiguration>( );
 
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL, plugin );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            FormConfiguration formConfiguration = new FormConfiguration(  );
-            formConfiguration = new FormConfiguration(  );
+            FormConfiguration formConfiguration = new FormConfiguration( );
             formConfiguration.setIdForm( daoUtil.getInt( 1 ) );
             formConfiguration.setTableName( daoUtil.getString( 2 ) );
             formConfiguration.setTableNameBlob( daoUtil.getString( 3 ) );
             formConfigurationList.add( formConfiguration );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return formConfigurationList;
     }
 
     /*
      * (non-Javadoc)
-     * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.IFormConfigurationDAO#findByPrimaryKey(int, fr.paris.lutece.portal.service.plugin.Plugin)
+     * 
+     * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.
+     * IFormConfigurationDAO#findByPrimaryKey(int,
+     * fr.paris.lutece.portal.service.plugin.Plugin)
      */
     public FormConfiguration findByPrimaryKey( int nIdForm, Plugin plugin )
     {
@@ -92,63 +94,76 @@ public class FormConfigurationDAO implements IFormConfigurationDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_PRIMARY_KEY, plugin );
         daoUtil.setInt( 1, nIdForm );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
-            formConfiguration = new FormConfiguration(  );
+            formConfiguration = new FormConfiguration( );
             formConfiguration.setIdForm( nIdForm );
             formConfiguration.setTableName( daoUtil.getString( 1 ) );
             formConfiguration.setTableNameBlob( daoUtil.getString( 2 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return formConfiguration;
     }
 
     /*
      * (non-Javadoc)
-     * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.IFormConfigurationDAO#delete(int, fr.paris.lutece.portal.service.plugin.Plugin)
+     * 
+     * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.
+     * IFormConfigurationDAO#delete(int,
+     * fr.paris.lutece.portal.service.plugin.Plugin)
      */
     public void delete( int nIdForm, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin );
         daoUtil.setInt( 1, nIdForm );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /*
      * (non-Javadoc)
-     * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.IFormConfigurationDAO#insert(fr.paris.lutece.plugins.form.modules.exportdatabase.business.FormConfiguration, fr.paris.lutece.portal.service.plugin.Plugin)
+     * 
+     * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.
+     * IFormConfigurationDAO
+     * #insert(fr.paris.lutece.plugins.form.modules.exportdatabase
+     * .business.FormConfiguration,
+     * fr.paris.lutece.portal.service.plugin.Plugin)
      */
     public void insert( FormConfiguration formConfiguration, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, plugin );
 
-        daoUtil.setInt( 1, formConfiguration.getIdForm(  ) );
-        daoUtil.setString( 2, formConfiguration.getTableName(  ) );
-        daoUtil.setString( 3, formConfiguration.getTableNameBlob(  ) );
+        daoUtil.setInt( 1, formConfiguration.getIdForm( ) );
+        daoUtil.setString( 2, formConfiguration.getTableName( ) );
+        daoUtil.setString( 3, formConfiguration.getTableNameBlob( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /*
      * (non-Javadoc)
-     * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.IFormConfigurationDAO#store(fr.paris.lutece.plugins.form.modules.exportdatabase.business.FormConfiguration, fr.paris.lutece.portal.service.plugin.Plugin)
+     * 
+     * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.
+     * IFormConfigurationDAO
+     * #store(fr.paris.lutece.plugins.form.modules.exportdatabase
+     * .business.FormConfiguration,
+     * fr.paris.lutece.portal.service.plugin.Plugin)
      */
     public void store( FormConfiguration formConfiguration, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin );
 
-        daoUtil.setString( 1, formConfiguration.getTableName(  ) );
-        daoUtil.setString( 2, formConfiguration.getTableNameBlob(  ) );
-        daoUtil.setInt( 3, formConfiguration.getIdForm(  ) );
+        daoUtil.setString( 1, formConfiguration.getTableName( ) );
+        daoUtil.setString( 2, formConfiguration.getTableNameBlob( ) );
+        daoUtil.setInt( 3, formConfiguration.getIdForm( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 }
