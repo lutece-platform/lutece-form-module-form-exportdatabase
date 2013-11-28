@@ -45,7 +45,7 @@ import java.util.Collection;
 
 /**
  * This class represent the {@link ExportdatabaseDAO} DAO
- *
+ * 
  */
 public class ExportdatabaseDAO implements IExportdatabaseDAO
 {
@@ -64,39 +64,39 @@ public class ExportdatabaseDAO implements IExportdatabaseDAO
     private static final String SQL_QUERY_INSERT_FILE_SUFFIX = " (id_formsubmit, entry_name, file_name, file_content) VALUES (?, ?, ?, ?) ";
     private static final String SQL_SHOW_TABLE = " SHOW TABLES LIKE ? ";
     private static final String SQL_QUERY_CREATE_TABLE = " CREATE TABLE ";
-    private static final String SQL_QUERY_CREATE_TABLE_BEGIN = " ( id_formsubmit INT NOT NULL," +
-        "date_response TIMESTAMP, ip VARCHAR(100), ";
+    private static final String SQL_QUERY_CREATE_TABLE_BEGIN = " ( id_formsubmit INT NOT NULL,"
+            + "date_response TIMESTAMP, ip VARCHAR(100), ";
     private static final String SQL_QUERY_CREATE_TABLE_TYPE_SHORT = " VARCHAR(255) ";
     private static final String SQL_QUERY_CREATE_TABLE_TYPE_LONG = " LONG VARCHAR ";
     private static final String SQL_QUERY_CREATE_TABLE_PK = " PRIMARY KEY(id_formsubmit) ";
     private static final String SQL_QUERY_CREATE_TABLE_END_CREATE = " )";
-    private static final String SQL_QUERY_CREATE_TABLE_BLOB_END = " ( id_formsubmit INT NOT NULL, " +
-        "entry_name VARCHAR(255) NOT NULL, file_name VARCHAR(100) NOT NULL, " +
-        "file_content LONG VARBINARY NOT NULL, PRIMARY KEY(id_formsubmit, entry_name)); ";
+    private static final String SQL_QUERY_CREATE_TABLE_BLOB_END = " ( id_formsubmit INT NOT NULL, "
+            + "entry_name VARCHAR(255) NOT NULL, file_name VARCHAR(100) NOT NULL, "
+            + "file_content LONG VARBINARY NOT NULL, PRIMARY KEY(id_formsubmit, entry_name)); ";
     private static final String SQL_QUERY_DROP_TABLE = " DROP TABLE IF EXISTS ";
     private static final String SQL_QUERY_COUNT_FORM_SUBMIT = " SELECT COUNT(id_formsubmit) FROM ";
     private static final String SQL_QUERY_CREATE_REFERENCE_TABLE = "( ref_key VARCHAR(255), ref_value VARCHAR(255), PRIMARY KEY(ref_key));";
     private static final String SQL_QUERY_INSERT_REFERENCE_TABLE = " ( ref_key, ref_value ) VALUE ( ?, ? );";
     private static final String TAG_REF_TABLE = "_ref_";
 
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.IExportdatabaseDAO#createRecordToTable(int, java.lang.String, fr.paris.lutece.util.ReferenceList, fr.paris.lutece.portal.service.plugin.Plugin)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public void createRecordToTable( int nIdFormSubmit, Timestamp dateResponse, String strIp, String strTableName,
-        ReferenceList listItems, Plugin plugin )
+            ReferenceList listItems, Plugin plugin )
     {
         DAOUtil daoUtil = getDaoFromReferenceList( nIdFormSubmit, dateResponse, strIp, strTableName, listItems, plugin );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.IExportdatabaseDAO#createFileToTable(java.lang.String, int, java.lang.String, java.lang.String, byte[], fr.paris.lutece.portal.service.plugin.Plugin)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public void createFileToTable( String strTableName, int nIdFormSubmit, String strEntryName, String strFileName,
-        byte[] byteFileContent, Plugin plugin )
+            byte[] byteFileContent, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_PREFIX + strTableName + SQL_QUERY_INSERT_FILE_SUFFIX, plugin );
         int nIndex = 1;
@@ -104,14 +104,14 @@ public class ExportdatabaseDAO implements IExportdatabaseDAO
         daoUtil.setString( nIndex++, strEntryName );
         daoUtil.setString( nIndex++, strFileName );
         daoUtil.setBytes( nIndex++, byteFileContent );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.IExportdatabaseDAO#tableExists(java.lang.String, fr.paris.lutece.portal.service.plugin.Plugin)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public boolean tableExists( String strTableName, Plugin plugin )
     {
         if ( strTableName == null )
@@ -122,96 +122,96 @@ public class ExportdatabaseDAO implements IExportdatabaseDAO
         boolean bReturn = false;
         DAOUtil daoUtil = new DAOUtil( SQL_SHOW_TABLE, plugin );
         daoUtil.setString( 1, strTableName );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             bReturn = true;
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return bReturn;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.IExportdatabaseDAO#createTables(fr.paris.lutece.plugins.form.modules.exportdatabase.business.FormConfiguration, fr.paris.lutece.portal.service.plugin.Plugin)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public void createTables( FormConfiguration formConfiguration, Plugin plugin )
     {
         DAOUtil daoUtilTable = new DAOUtil( getSqlCreateTable( formConfiguration, plugin ), plugin );
-        daoUtilTable.executeUpdate(  );
-        daoUtilTable.free(  );
+        daoUtilTable.executeUpdate( );
+        daoUtilTable.free( );
 
         DAOUtil daoUtilTableBlob = new DAOUtil( getSqlCreateTableBlob( formConfiguration, plugin ), plugin );
-        daoUtilTableBlob.executeUpdate(  );
-        daoUtilTableBlob.free(  );
+        daoUtilTableBlob.executeUpdate( );
+        daoUtilTableBlob.free( );
     }
 
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.IExportdatabaseDAO#createReferenceTable(java.lang.String, fr.paris.lutece.util.ReferenceList, fr.paris.lutece.portal.service.plugin.Plugin)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public void createReferenceTable( String strExportTableName, String strColumnName, ReferenceList listItems,
-        Plugin plugin )
+            Plugin plugin )
     {
         String strReferenceTableName = getReferenceTableName( strExportTableName, strColumnName );
         DAOUtil daoUtilTable = new DAOUtil( getSqlCreateReferenceTable( strReferenceTableName, listItems, plugin ),
                 plugin );
-        daoUtilTable.executeUpdate(  );
-        daoUtilTable.free(  );
+        daoUtilTable.executeUpdate( );
+        daoUtilTable.free( );
 
         for ( ReferenceItem item : listItems )
         {
-            DAOUtil daoUtilInsert = new DAOUtil( SQL_QUERY_INSERT_PREFIX + strReferenceTableName +
-                    SQL_QUERY_INSERT_REFERENCE_TABLE, plugin );
-            daoUtilInsert.setString( 1, item.getCode(  ) );
-            daoUtilInsert.setString( 2, item.getName(  ) );
-            daoUtilInsert.executeUpdate(  );
-            daoUtilInsert.free(  );
+            DAOUtil daoUtilInsert = new DAOUtil( SQL_QUERY_INSERT_PREFIX + strReferenceTableName
+                    + SQL_QUERY_INSERT_REFERENCE_TABLE, plugin );
+            daoUtilInsert.setString( 1, item.getCode( ) );
+            daoUtilInsert.setString( 2, item.getName( ) );
+            daoUtilInsert.executeUpdate( );
+            daoUtilInsert.free( );
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.IExportdatabaseDAO#dropTable(java.lang.String, fr.paris.lutece.portal.service.plugin.Plugin)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public void dropTable( String strTableName, Plugin plugin )
     {
         DAOUtil daoUtilTable = new DAOUtil( SQL_QUERY_DROP_TABLE + strTableName + SQL_QUERY_END, plugin );
-        daoUtilTable.executeUpdate(  );
-        daoUtilTable.free(  );
+        daoUtilTable.executeUpdate( );
+        daoUtilTable.free( );
     }
 
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.IExportdatabaseDAO#dropReferenceTable(java.lang.String, java.lang.String, fr.paris.lutece.portal.service.plugin.Plugin)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public void dropReferenceTable( String strExportTableName, String strColumnName, Plugin plugin )
     {
-        DAOUtil daoUtilTable = new DAOUtil( SQL_QUERY_DROP_TABLE +
-                getReferenceTableName( strExportTableName, strColumnName ) + SQL_QUERY_END, plugin );
-        daoUtilTable.executeUpdate(  );
-        daoUtilTable.free(  );
+        DAOUtil daoUtilTable = new DAOUtil( SQL_QUERY_DROP_TABLE
+                + getReferenceTableName( strExportTableName, strColumnName ) + SQL_QUERY_END, plugin );
+        daoUtilTable.executeUpdate( );
+        daoUtilTable.free( );
     }
 
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.IExportdatabaseDAO#countFormSubmit(fr.paris.lutece.plugins.form.modules.exportdatabase.business.FormConfiguration, fr.paris.lutece.portal.service.plugin.Plugin)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public int countFormSubmit( FormConfiguration formConfiguration, Plugin plugin )
     {
         int nCount = 0;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_COUNT_FORM_SUBMIT + formConfiguration.getTableName(  ), plugin );
-        daoUtil.executeQuery(  );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_COUNT_FORM_SUBMIT + formConfiguration.getTableName( ), plugin );
+        daoUtil.executeQuery( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             nCount = daoUtil.getInt( 1 );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nCount;
     }
@@ -224,14 +224,14 @@ public class ExportdatabaseDAO implements IExportdatabaseDAO
      */
     private String getSqlCreateTable( FormConfiguration formConfiguration, Plugin plugin )
     {
-        String strSQL = SQL_QUERY_CREATE_TABLE + formConfiguration.getTableName(  ) + SQL_QUERY_CREATE_TABLE_BEGIN;
+        String strSQL = SQL_QUERY_CREATE_TABLE + formConfiguration.getTableName( ) + SQL_QUERY_CREATE_TABLE_BEGIN;
         Collection<EntryConfiguration> entryList = formConfiguration.getEntryTextConfigurationList( plugin );
 
         for ( EntryConfiguration entryConfiguration : entryList )
         {
-            strSQL += entryConfiguration.getColumnName(  );
+            strSQL += entryConfiguration.getColumnName( );
 
-            if ( entryConfiguration.isLongValue(  ) )
+            if ( entryConfiguration.isLongValue( ) )
             {
                 strSQL += SQL_QUERY_CREATE_TABLE_TYPE_LONG;
             }
@@ -244,28 +244,6 @@ public class ExportdatabaseDAO implements IExportdatabaseDAO
         }
 
         strSQL += SQL_QUERY_CREATE_TABLE_PK;
-    	/**
-        for ( EntryConfiguration entryConfiguration : entryList )
-        {
-           
-        
-        	if ( entryConfiguration.hasReferenceTable(  ) )
-            {
-                if ( !strSQL.equals( EMPTY_STRING ) )
-                {
-                    strSQL += SQL_QUERY_COMMA;
-                }
-
-                String strReferenceTableName = getReferenceTableName( formConfiguration.getTableName(  ),
-                        entryConfiguration.getColumnName(  ) );
-                String strConstraintName = FOREIGN_KEY_PREFIX + strReferenceTableName;
-                strSQL += ( SQL_QUERY_CREATE_TABLE_CONSTRAINT + strConstraintName + SQL_QUERY_CREATE_TABLE_FK_1 +
-                entryConfiguration.getColumnName(  ) + SQL_QUERY_CREATE_TABLE_FK_2 + strReferenceTableName +
-                SQL_QUERY_CREATE_TABLE_FK_3 );
-            }
-           
-        }
-    	 	**/
         strSQL += ( SQL_QUERY_CREATE_TABLE_END_CREATE + SQL_QUERY_END );
 
         return strSQL;
@@ -287,14 +265,14 @@ public class ExportdatabaseDAO implements IExportdatabaseDAO
 
     /**
      * Create the blob table sql query
-     *
+     * 
      * @param formConfiguration The {@link FormConfiguration}
      * @param plugin The {@link Plugin}
      * @return The Sql query
      */
     private String getSqlCreateTableBlob( FormConfiguration formConfiguration, Plugin plugin )
     {
-        return SQL_QUERY_CREATE_TABLE + formConfiguration.getTableNameBlob(  ) + SQL_QUERY_CREATE_TABLE_BLOB_END;
+        return SQL_QUERY_CREATE_TABLE + formConfiguration.getTableNameBlob( ) + SQL_QUERY_CREATE_TABLE_BLOB_END;
     }
 
     /**
@@ -307,40 +285,36 @@ public class ExportdatabaseDAO implements IExportdatabaseDAO
      * @return the DaoUtil
      */
     private DAOUtil getDaoFromReferenceList( int nIdFormSubmit, Timestamp dateResponse, String strIp,
-        String strTableName, ReferenceList listItems, Plugin plugin )
+            String strTableName, ReferenceList listItems, Plugin plugin )
     {
         String strSQL = SQL_QUERY_INSERT_PREFIX + strTableName;
         String strColumnsList = EMPTY_STRING;
         String strValues = EMPTY_STRING;
 
         // id_formsubmit
-        strColumnsList += ( ( ( !strColumnsList.equals( EMPTY_STRING ) ) ? SQL_QUERY_COMMA : EMPTY_STRING ) +
-        ( SQL_QUERY_ID_FORMSUBMIT ) );
-        strValues += ( ( ( !strValues.equals( EMPTY_STRING ) ) ? SQL_QUERY_COMMA : EMPTY_STRING ) +
-        ( SQL_QUERY_QUESTION ) );
+        strColumnsList += ( ( ( !strColumnsList.equals( EMPTY_STRING ) ) ? SQL_QUERY_COMMA : EMPTY_STRING ) + ( SQL_QUERY_ID_FORMSUBMIT ) );
+        strValues += ( ( ( !strValues.equals( EMPTY_STRING ) ) ? SQL_QUERY_COMMA : EMPTY_STRING ) + ( SQL_QUERY_QUESTION ) );
         // date_response
-        strColumnsList += ( ( ( !strColumnsList.equals( EMPTY_STRING ) ) ? SQL_QUERY_COMMA : EMPTY_STRING ) +
-        ( SQL_QUERY_ID_DATE_RESPONSE ) );
-        strValues += ( ( ( !strValues.equals( EMPTY_STRING ) ) ? SQL_QUERY_COMMA : EMPTY_STRING ) +
-        ( SQL_QUERY_QUESTION ) );
+        strColumnsList += ( ( ( !strColumnsList.equals( EMPTY_STRING ) ) ? SQL_QUERY_COMMA : EMPTY_STRING ) + ( SQL_QUERY_ID_DATE_RESPONSE ) );
+        strValues += ( ( ( !strValues.equals( EMPTY_STRING ) ) ? SQL_QUERY_COMMA : EMPTY_STRING ) + ( SQL_QUERY_QUESTION ) );
         // ip
-        strColumnsList += ( ( ( !strColumnsList.equals( EMPTY_STRING ) ) ? SQL_QUERY_COMMA : EMPTY_STRING ) +
-        ( SQL_QUERY_IP ) );
-        strValues += ( ( ( !strValues.equals( EMPTY_STRING ) ) ? SQL_QUERY_COMMA : EMPTY_STRING ) +
-        ( SQL_QUERY_QUESTION ) );
+        strColumnsList += ( ( ( !strColumnsList.equals( EMPTY_STRING ) ) ? SQL_QUERY_COMMA : EMPTY_STRING ) + ( SQL_QUERY_IP ) );
+        strValues += ( ( ( !strValues.equals( EMPTY_STRING ) ) ? SQL_QUERY_COMMA : EMPTY_STRING ) + ( SQL_QUERY_QUESTION ) );
 
         for ( ReferenceItem item : listItems )
         {
-            strColumnsList += ( ( ( !strColumnsList.equals( EMPTY_STRING ) ) ? SQL_QUERY_COMMA : EMPTY_STRING ) +
-            ( item.getCode(  ) ) );
-            strValues += ( ( ( !strValues.equals( EMPTY_STRING ) ) ? SQL_QUERY_COMMA : EMPTY_STRING ) +
-            ( SQL_QUERY_QUESTION ) );
+            strColumnsList += ( ( ( !strColumnsList.equals( EMPTY_STRING ) ) ? SQL_QUERY_COMMA : EMPTY_STRING ) + ( item
+                    .getCode( ) ) );
+            strValues += ( ( ( !strValues.equals( EMPTY_STRING ) ) ? SQL_QUERY_COMMA : EMPTY_STRING ) + ( SQL_QUERY_QUESTION ) );
         }
 
         strColumnsList = SQL_QUERY_OPEN_BRACKET + strColumnsList + SQL_QUERY_CLOSE_BRACKET;
         strValues = SQL_QUERY_INSERT_VALUES + strValues + SQL_QUERY_CLOSE_BRACKET;
         strSQL += ( strColumnsList + strValues );
-        AppLogService.debug( "Sql query form exportdatabase : " + strSQL );
+        if ( AppLogService.isDebugEnabled( ) )
+        {
+            AppLogService.debug( "Sql query form exportdatabase : " + strSQL );
+        }
 
         DAOUtil daoUtil = new DAOUtil( strSQL, plugin );
         int nIndex = 1;
@@ -351,8 +325,11 @@ public class ExportdatabaseDAO implements IExportdatabaseDAO
 
         for ( ReferenceItem item : listItems )
         {
-            daoUtil.setString( nIndex, item.getName(  ) );
-            AppLogService.debug( "Param" + nIndex + " (" + item.getCode(  ) + ") = " + item.getName(  ) );
+            daoUtil.setString( nIndex, item.getName( ) );
+            if ( AppLogService.isDebugEnabled( ) )
+            {
+                AppLogService.debug( "Param" + nIndex + " (" + item.getCode( ) + ") = " + item.getName( ) );
+            }
             nIndex++;
         }
 
@@ -362,7 +339,8 @@ public class ExportdatabaseDAO implements IExportdatabaseDAO
     /**
      * Set the reference table name
      * @param strExportTableName The name of the export table
-     * @param strColumnName The name of the column concerned by the foreign key with the reference table
+     * @param strColumnName The name of the column concerned by the foreign key
+     *            with the reference table
      * @return The reference table name
      */
     private String getReferenceTableName( String strExportTableName, String strColumnName )

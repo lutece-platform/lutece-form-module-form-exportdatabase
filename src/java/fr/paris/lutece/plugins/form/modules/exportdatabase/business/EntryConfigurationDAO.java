@@ -42,28 +42,28 @@ import java.util.Collection;
 
 /**
  * This class represent the {@link EntryConfiguration} DAO
- *
+ * 
  */
 public class EntryConfigurationDAO implements IEntryConfigurationDAO
 {
-    private static final String SQL_QUERY_NEW_POSITION = "SELECT MAX(id_position) " +
-        "FROM form_exportdatabase_entryconfiguration WHERE id_form = ? ";
-    private static final String SQL_QUERY_SELECT_BY_PRIMARY_KEY = " SELECT column_name, is_long_value, has_ref_table " +
-        "FROM form_exportdatabase_entryconfiguration WHERE id_form = ? AND id_entry = ? ";
-    private static final String SQL_QUERY_INSERT = " INSERT INTO form_exportdatabase_entryconfiguration " +
-        "( id_form, id_entry, column_name, is_long_value, has_ref_table, id_position ) VALUES ( ?, ?, ?, ?, ?, ? ) ";
-    private static final String SQL_QUERY_UPDATE = " UPDATE form_exportdatabase_entryconfiguration " +
-        "SET column_name = ?, is_long_value = ?, has_ref_table = ? WHERE id_form = ? AND id_entry = ? ";
-    private static final String SQL_QUERY_DELETE = " DELETE FROM form_exportdatabase_entryconfiguration " +
-        "WHERE id_form = ? AND id_entry = ? ";
-    private static final String SQL_QUERY_DELETE_BY_FORM = " DELETE FROM form_exportdatabase_entryconfiguration " +
-        "WHERE id_form = ? ";
-    private static final String SQL_QUERY_SELECT_ENTRY_CONFIGURATION_BY_ID_FORM = " SELECT id_entry, column_name, is_long_value, has_ref_table " +
-        "FROM form_exportdatabase_entryconfiguration WHERE id_form = ? ORDER BY id_position ";
+    private static final String SQL_QUERY_NEW_POSITION = "SELECT MAX(id_position) "
+            + "FROM form_exportdatabase_entryconfiguration WHERE id_form = ? ";
+    private static final String SQL_QUERY_SELECT_BY_PRIMARY_KEY = " SELECT column_name, is_long_value, has_ref_table "
+            + "FROM form_exportdatabase_entryconfiguration WHERE id_form = ? AND id_entry = ? ";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO form_exportdatabase_entryconfiguration "
+            + "( id_form, id_entry, column_name, is_long_value, has_ref_table, id_position ) VALUES ( ?, ?, ?, ?, ?, ? ) ";
+    private static final String SQL_QUERY_UPDATE = " UPDATE form_exportdatabase_entryconfiguration "
+            + "SET column_name = ?, is_long_value = ?, has_ref_table = ? WHERE id_form = ? AND id_entry = ? ";
+    private static final String SQL_QUERY_DELETE = " DELETE FROM form_exportdatabase_entryconfiguration "
+            + "WHERE id_form = ? AND id_entry = ? ";
+    private static final String SQL_QUERY_DELETE_BY_FORM = " DELETE FROM form_exportdatabase_entryconfiguration "
+            + "WHERE id_form = ? ";
+    private static final String SQL_QUERY_SELECT_ENTRY_CONFIGURATION_BY_ID_FORM = " SELECT id_entry, column_name, is_long_value, has_ref_table "
+            + "FROM form_exportdatabase_entryconfiguration WHERE id_form = ? ORDER BY id_position ";
 
     /**
      * Generates a new {@link EntryConfiguration} position
-     *
+     * 
      * @param nIdForm The Form identifier
      * @param plugin the plugin
      * @return the new {@link EntryConfiguration} position
@@ -72,37 +72,37 @@ public class EntryConfigurationDAO implements IEntryConfigurationDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_POSITION, plugin );
         daoUtil.setInt( 1, nIdForm );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         int nPos;
 
-        if ( !daoUtil.next(  ) )
+        if ( !daoUtil.next( ) )
         {
             // if the table is empty
             nPos = 1;
         }
 
         nPos = daoUtil.getInt( 1 ) + 1;
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nPos;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.IEntryConfigurationDAO#findEntryConfigurationListByIdForm(int, fr.paris.lutece.portal.service.plugin.Plugin)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public Collection<EntryConfiguration> findEntryConfigurationListByIdForm( int nIdForm, Plugin plugin )
     {
-        Collection<EntryConfiguration> entryConfigurationList = new ArrayList<EntryConfiguration>(  );
+        Collection<EntryConfiguration> entryConfigurationList = new ArrayList<EntryConfiguration>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ENTRY_CONFIGURATION_BY_ID_FORM, plugin );
         daoUtil.setInt( 1, nIdForm );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            EntryConfiguration entryConfiguration = new EntryConfiguration(  );
+            EntryConfiguration entryConfiguration = new EntryConfiguration( );
 
             entryConfiguration.setIdEntry( daoUtil.getInt( 1 ) );
             entryConfiguration.setColumnName( daoUtil.getString( 2 ) );
@@ -111,14 +111,15 @@ public class EntryConfigurationDAO implements IEntryConfigurationDAO
             entryConfigurationList.add( entryConfiguration );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return entryConfigurationList;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.IEntryConfiguration#findByPrimaryKey(int, int, fr.paris.lutece.portal.service.plugin.Plugin)
-         */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public EntryConfiguration findByPrimaryKey( int nIdForm, int nIdEntry, Plugin plugin )
     {
         EntryConfiguration entryConfiguration = null;
@@ -126,11 +127,11 @@ public class EntryConfigurationDAO implements IEntryConfigurationDAO
         daoUtil.setInt( 1, nIdForm );
         daoUtil.setInt( 2, nIdEntry );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
-            entryConfiguration = new EntryConfiguration(  );
+            entryConfiguration = new EntryConfiguration( );
             entryConfiguration.setIdForm( nIdForm );
             entryConfiguration.setIdEntry( nIdEntry );
             entryConfiguration.setColumnName( daoUtil.getString( 1 ) );
@@ -138,68 +139,72 @@ public class EntryConfigurationDAO implements IEntryConfigurationDAO
             entryConfiguration.setHasReferenceTable( daoUtil.getBoolean( 3 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return entryConfiguration;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.IEntryConfiguration#delete(int, int, fr.paris.lutece.portal.service.plugin.Plugin)
-         */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void delete( int nIdForm, int nIdEntry, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin );
         daoUtil.setInt( 1, nIdForm );
         daoUtil.setInt( 2, nIdEntry );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.IEntryConfiguration#deleteByForm(int, fr.paris.lutece.portal.service.plugin.Plugin)
-         */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void deleteByForm( int nIdForm, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_BY_FORM, plugin );
         daoUtil.setInt( 1, nIdForm );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.IEntryConfiguration#insert(fr.paris.lutece.plugins.form.modules.exportdatabase.business.EntryConfiguration, fr.paris.lutece.portal.service.plugin.Plugin)
-         */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void insert( EntryConfiguration entryConfiguration, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, plugin );
 
-        daoUtil.setInt( 1, entryConfiguration.getIdForm(  ) );
-        daoUtil.setInt( 2, entryConfiguration.getIdEntry(  ) );
-        daoUtil.setString( 3, entryConfiguration.getColumnName(  ) );
-        daoUtil.setBoolean( 4, entryConfiguration.isLongValue(  ) );
-        daoUtil.setBoolean( 5, entryConfiguration.hasReferenceTable(  ) );
-        daoUtil.setInt( 6, newPosition( entryConfiguration.getIdForm(  ), plugin ) );
+        daoUtil.setInt( 1, entryConfiguration.getIdForm( ) );
+        daoUtil.setInt( 2, entryConfiguration.getIdEntry( ) );
+        daoUtil.setString( 3, entryConfiguration.getColumnName( ) );
+        daoUtil.setBoolean( 4, entryConfiguration.isLongValue( ) );
+        daoUtil.setBoolean( 5, entryConfiguration.hasReferenceTable( ) );
+        daoUtil.setInt( 6, newPosition( entryConfiguration.getIdForm( ), plugin ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.IEntryConfiguration#store(fr.paris.lutece.plugins.form.modules.exportdatabase.business.EntryConfiguration, fr.paris.lutece.portal.service.plugin.Plugin)
-         */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void store( EntryConfiguration entryConfiguration, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin );
 
-        daoUtil.setString( 1, entryConfiguration.getColumnName(  ) );
-        daoUtil.setBoolean( 2, entryConfiguration.isLongValue(  ) );
-        daoUtil.setBoolean( 3, entryConfiguration.hasReferenceTable(  ) );
-        daoUtil.setInt( 4, entryConfiguration.getIdForm(  ) );
-        daoUtil.setInt( 5, entryConfiguration.getIdEntry(  ) );
+        daoUtil.setString( 1, entryConfiguration.getColumnName( ) );
+        daoUtil.setBoolean( 2, entryConfiguration.isLongValue( ) );
+        daoUtil.setBoolean( 3, entryConfiguration.hasReferenceTable( ) );
+        daoUtil.setInt( 4, entryConfiguration.getIdForm( ) );
+        daoUtil.setInt( 5, entryConfiguration.getIdEntry( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 }

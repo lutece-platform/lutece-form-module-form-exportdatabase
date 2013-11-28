@@ -54,11 +54,9 @@ public class FormConfigurationDAO implements IFormConfigurationDAO
     private static final String SQL_QUERY_DELETE = " DELETE FROM form_exportdatabase_formconfiguration WHERE id_form = ?";
 
     /**
-     * Find all {@link FormConfiguration}
-     * 
-     * @param plugin The {@link Plugin}
-     * @return The {@link FormConfiguration} or null if not exists
+     * {@inheritDoc}
      */
+    @Override
     public Collection<FormConfiguration> findAll( Plugin plugin )
     {
         Collection<FormConfiguration> formConfigurationList = new ArrayList<FormConfiguration>( );
@@ -81,13 +79,10 @@ public class FormConfigurationDAO implements IFormConfigurationDAO
         return formConfigurationList;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.
-     * IFormConfigurationDAO#findByPrimaryKey(int,
-     * fr.paris.lutece.portal.service.plugin.Plugin)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public FormConfiguration findByPrimaryKey( int nIdForm, Plugin plugin )
     {
         FormConfiguration formConfiguration = null;
@@ -109,13 +104,10 @@ public class FormConfigurationDAO implements IFormConfigurationDAO
         return formConfiguration;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.
-     * IFormConfigurationDAO#delete(int,
-     * fr.paris.lutece.portal.service.plugin.Plugin)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public void delete( int nIdForm, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin );
@@ -125,15 +117,10 @@ public class FormConfigurationDAO implements IFormConfigurationDAO
         daoUtil.free( );
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.
-     * IFormConfigurationDAO
-     * #insert(fr.paris.lutece.plugins.form.modules.exportdatabase
-     * .business.FormConfiguration,
-     * fr.paris.lutece.portal.service.plugin.Plugin)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public void insert( FormConfiguration formConfiguration, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, plugin );
@@ -146,15 +133,10 @@ public class FormConfigurationDAO implements IFormConfigurationDAO
         daoUtil.free( );
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see fr.paris.lutece.plugins.form.modules.exportdatabase.business.
-     * IFormConfigurationDAO
-     * #store(fr.paris.lutece.plugins.form.modules.exportdatabase
-     * .business.FormConfiguration,
-     * fr.paris.lutece.portal.service.plugin.Plugin)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public void store( FormConfiguration formConfiguration, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin );

@@ -109,14 +109,10 @@ public class ProcessorExportdatabase extends OutputProcessor
     private static int[] _arrayEntryTypeLong = new int[] { 3, 7 };
     private static int[] _arrayEntryTypeRef = new int[] { 1, 2, 5 };
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * fr.paris.lutece.plugins.form.business.outputprocessor.IOutputProcessor
-     * #getOutputConfigForm(fr.paris.lutece.plugins.form.business.Form,
-     * java.util.Locale, fr.paris.lutece.portal.service.plugin.Plugin)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public String getOutputConfigForm( HttpServletRequest request, Form form, Locale locale, Plugin plugin )
     {
         Plugin pluginExportdatabase = PluginService.getPlugin( ExportdatabasePlugin.PLUGIN_NAME );
@@ -177,14 +173,10 @@ public class ProcessorExportdatabase extends OutputProcessor
         return template.getHtml( );
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * fr.paris.lutece.plugins.form.business.outputprocessor.IOutputProcessor
-     * #doOutputConfigForm(javax.servlet.http.HttpServletRequest,
-     * java.util.Locale, fr.paris.lutece.portal.service.plugin.Plugin)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public String doOutputConfigForm( HttpServletRequest request, Locale locale, Plugin plugin )
     {
         Plugin pluginExportdatabase = PluginService.getPlugin( ExportdatabasePlugin.PLUGIN_NAME );
@@ -230,15 +222,10 @@ public class ProcessorExportdatabase extends OutputProcessor
         return null;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * fr.paris.lutece.plugins.form.business.outputprocessor.IOutputProcessor
-     * #process(fr.paris.lutece.plugins.form.business.FormSubmit,
-     * javax.servlet.http.HttpServletRequest,
-     * fr.paris.lutece.portal.service.plugin.Plugin)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public String process( FormSubmit formSubmit, HttpServletRequest request, Plugin plugin )
     {
         Plugin pluginExportdatabase = PluginService.getPlugin( ExportdatabasePlugin.PLUGIN_NAME );
