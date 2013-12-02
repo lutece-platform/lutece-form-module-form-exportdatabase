@@ -33,17 +33,19 @@
  */
 package fr.paris.lutece.plugins.form.modules.exportdatabase.business;
 
-import fr.paris.lutece.plugins.form.business.EntryHome;
-import fr.paris.lutece.plugins.form.business.Field;
-import fr.paris.lutece.plugins.form.business.FieldHome;
 import fr.paris.lutece.plugins.form.business.Form;
 import fr.paris.lutece.plugins.form.business.FormHome;
 import fr.paris.lutece.plugins.form.business.FormSubmit;
 import fr.paris.lutece.plugins.form.business.FormSubmitHome;
-import fr.paris.lutece.plugins.form.business.IEntry;
-import fr.paris.lutece.plugins.form.business.Response;
-import fr.paris.lutece.plugins.form.business.ResponseFilter;
-import fr.paris.lutece.plugins.form.business.ResponseHome;
+import fr.paris.lutece.plugins.form.modules.exportdatabase.util.StringUtil;
+import fr.paris.lutece.plugins.genericattributes.business.EntryHome;
+import fr.paris.lutece.plugins.genericattributes.business.Field;
+import fr.paris.lutece.plugins.genericattributes.business.FieldHome;
+import fr.paris.lutece.plugins.genericattributes.business.IEntry;
+import fr.paris.lutece.plugins.genericattributes.business.Response;
+import fr.paris.lutece.plugins.genericattributes.business.ResponseFilter;
+import fr.paris.lutece.plugins.genericattributes.business.ResponseHome;
+import fr.paris.lutece.plugins.genericattributes.service.entrytype.EntryTypeServiceManager;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
@@ -132,7 +134,7 @@ public class ExportdatabaseHome
     public static void exportAllFormSubmit( Form form, Plugin pluginForm, Plugin pluginExportDatabase )
     {
         ResponseFilter filter = new ResponseFilter( );
-        filter.setIdForm( form.getIdForm( ) );
+        filter.setIdResource( form.getIdForm( ) );
 
         List<FormSubmit> formSubmitList = FormSubmitHome.getFormSubmitList( filter, pluginForm );
 
@@ -169,7 +171,7 @@ public class ExportdatabaseHome
         Collection<EntryConfiguration> entryConfigurationList = formConfiguration
                 .getEntryConfigurationList( pluginExportDatabase );
         ResponseFilter filter = new ResponseFilter( );
-        filter.setIdForm( formSubmit.getIdFormSubmit( ) );
+        filter.setIdResource( formSubmit.getIdFormSubmit( ) );
         HashMap<Integer, List<Response>> mapEntryListResponses = new HashMap<Integer, List<Response>>( );
         Response responseTemp;
         for ( Response response : ResponseHome.getResponseList( filter ) )
@@ -194,8 +196,8 @@ public class ExportdatabaseHome
                     responseTemp = mapEntryListResponses.get( entryConfiguration.getIdEntry( ) ).get( 0 );
                     _dao.createFileToTable( formConfiguration.getTableNameBlob( ), formSubmit.getIdFormSubmit( ),
                             entryConfiguration.getColumnName( ), responseTemp.getFile( ) != null ? responseTemp
-                                    .getFile( ).getTitle( ) : null, responseTemp.getValueResponse( ),
-                            pluginExportDatabase );
+                                    .getFile( ).getTitle( ) : null, StringUtil.convertToByte( responseTemp
+                                    .getResponseValue( ) ), pluginExportDatabase );
                 }
                 else
                 {
@@ -279,8 +281,9 @@ public class ExportdatabaseHome
             nCpt++;
             if ( response.getResponseValue( ) != null )
             {
-                strValue += response.getEntry( ).getResponseValueForExport( null, response,
-                        I18nService.getDefaultLocale( ) );
+                strValue += EntryTypeServiceManager.getEntryTypeService( response.getEntry( ) )
+                        .getResponseValueForExport( response.getEntry( ), null, response,
+                                I18nService.getDefaultLocale( ) );
             }
             if ( nCpt < listResponse.size( ) )
             {

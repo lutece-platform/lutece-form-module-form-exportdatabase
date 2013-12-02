@@ -33,9 +33,9 @@
  */
 package fr.paris.lutece.plugins.form.modules.exportdatabase.business;
 
-import fr.paris.lutece.plugins.form.business.EntryHome;
-import fr.paris.lutece.plugins.form.business.IEntry;
 import fr.paris.lutece.plugins.form.modules.exportdatabase.service.ExportdatabasePlugin;
+import fr.paris.lutece.plugins.genericattributes.business.EntryHome;
+import fr.paris.lutece.plugins.genericattributes.business.IEntry;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;

@@ -35,12 +35,14 @@ package fr.paris.lutece.plugins.form.modules.exportdatabase.web;
 
 import fr.paris.lutece.plugins.form.business.FormSubmit;
 import fr.paris.lutece.plugins.form.business.FormSubmitHome;
-import fr.paris.lutece.plugins.form.business.Response;
-import fr.paris.lutece.plugins.form.business.ResponseFilter;
-import fr.paris.lutece.plugins.form.business.ResponseHome;
 import fr.paris.lutece.plugins.form.modules.exportdatabase.business.ExportdatabaseHome;
 import fr.paris.lutece.plugins.form.modules.exportdatabase.service.ExportdatabasePlugin;
+import fr.paris.lutece.plugins.form.modules.exportdatabase.util.StringUtil;
 import fr.paris.lutece.plugins.form.service.FormPlugin;
+import fr.paris.lutece.plugins.genericattributes.business.Response;
+import fr.paris.lutece.plugins.genericattributes.business.ResponseFilter;
+import fr.paris.lutece.plugins.genericattributes.business.ResponseHome;
+import fr.paris.lutece.plugins.genericattributes.service.entrytype.EntryTypeServiceManager;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 
@@ -65,17 +67,18 @@ public class ExportdatabaseJspBean
     {
         FormSubmit formSubmit = FormSubmitHome.findByPrimaryKey( 1, PluginService.getPlugin( FormPlugin.PLUGIN_NAME ) );
         ResponseFilter filter = new ResponseFilter( );
-        filter.setIdForm( 1 );
+        filter.setIdResource( 1 );
         formSubmit.setListResponse( ResponseHome.getResponseList( filter ) );
 
         for ( Response response : formSubmit.getListResponse( ) )
         {
-            byte[] byResponseValue = response.getValueResponse( );
+            byte[] byResponseValue = StringUtil.convertToByte( response.getResponseValue( ) );
 
             if ( byResponseValue != null )
             {
-                response.setToStringValueResponse( response.getEntry( ).getResponseValueForRecap( request, response,
-                        I18nService.getDefaultLocale( ) ) );
+                response.setToStringValueResponse( EntryTypeServiceManager.getEntryTypeService( response.getEntry( ) )
+                        .getResponseValueForRecap( response.getEntry( ), request, response,
+                                I18nService.getDefaultLocale( ) ) );
             }
             else
             {

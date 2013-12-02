@@ -33,9 +33,9 @@
  */
 package fr.paris.lutece.plugins.form.modules.exportdatabase.business;
 
-import fr.paris.lutece.plugins.form.business.EntryHome;
-import fr.paris.lutece.plugins.form.business.IEntry;
 import fr.paris.lutece.plugins.form.service.FormRemovalListenerService;
+import fr.paris.lutece.plugins.genericattributes.business.EntryHome;
+import fr.paris.lutece.plugins.genericattributes.business.IEntry;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 
 import java.util.ArrayList;
