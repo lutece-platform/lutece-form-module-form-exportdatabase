@@ -35,7 +35,7 @@ package fr.paris.lutece.plugins.form.modules.exportdatabase.business;
 
 import fr.paris.lutece.plugins.form.service.EntryRemovalListenerService;
 import fr.paris.lutece.plugins.genericattributes.business.EntryHome;
-import fr.paris.lutece.plugins.genericattributes.business.IEntry;
+import fr.paris.lutece.plugins.genericattributes.business.Entry;
 
 
 /**
@@ -135,7 +135,7 @@ public class EntryConfiguration
      */
     public String getEntryTitle( )
     {
-        IEntry entry = EntryHome.findByPrimaryKey( getIdEntry( ) );
+        Entry entry = EntryHome.findByPrimaryKey( getIdEntry( ) );
 
         if ( entry != null )
         {

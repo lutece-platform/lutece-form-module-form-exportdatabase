@@ -40,7 +40,7 @@ import fr.paris.lutece.plugins.form.business.FormSubmitHome;
 import fr.paris.lutece.plugins.form.business.outputprocessor.OutputProcessor;
 import fr.paris.lutece.plugins.form.modules.exportdatabase.service.ExportdatabasePlugin;
 import fr.paris.lutece.plugins.form.utils.FormUtils;
-import fr.paris.lutece.plugins.genericattributes.business.IEntry;
+import fr.paris.lutece.plugins.genericattributes.business.Entry;
 import fr.paris.lutece.plugins.genericattributes.business.ResponseFilter;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
@@ -128,7 +128,7 @@ public class ProcessorExportdatabase extends OutputProcessor
 
         Collection<EntryConfiguration> entryConfigurationList = new ArrayList<EntryConfiguration>( );
 
-        for ( IEntry entry : FormUtils.getAllQuestionList( form.getIdForm( ), plugin ) )
+        for ( Entry entry : FormUtils.getAllQuestionList( form.getIdForm( ), plugin ) )
         {
             EntryConfiguration entryConfigurationFromEntry = EntryConfigurationHome.findByPrimaryKey(
                     form.getIdForm( ), entry.getIdEntry( ), pluginExportdatabase );
@@ -315,7 +315,7 @@ public class ProcessorExportdatabase extends OutputProcessor
             }
         }
 
-        for ( IEntry entry : FormUtils.getAllQuestionList( form.getIdForm( ), plugin ) )
+        for ( Entry entry : FormUtils.getAllQuestionList( form.getIdForm( ), plugin ) )
         {
             String strColumnName = request.getParameter( PARAMETER_ID_COLUMN_NAME_PREFIX + entry.getIdEntry( ) );
 
@@ -423,7 +423,7 @@ public class ProcessorExportdatabase extends OutputProcessor
         return null;
     }
 
-    private boolean isLongValue( IEntry entry )
+    private boolean isLongValue( Entry entry )
     {
         for ( int nEntryTypeId : _arrayEntryTypeLong )
         {
@@ -436,7 +436,7 @@ public class ProcessorExportdatabase extends OutputProcessor
         return false;
     }
 
-    private boolean hasReferenceTable( IEntry entry )
+    private boolean hasReferenceTable( Entry entry )
     {
         for ( int nEntryTypeId : _arrayEntryTypeRef )
         {

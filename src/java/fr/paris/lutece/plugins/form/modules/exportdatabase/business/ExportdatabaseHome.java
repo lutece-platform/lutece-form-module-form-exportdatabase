@@ -41,7 +41,7 @@ import fr.paris.lutece.plugins.form.modules.exportdatabase.util.StringUtil;
 import fr.paris.lutece.plugins.genericattributes.business.EntryHome;
 import fr.paris.lutece.plugins.genericattributes.business.Field;
 import fr.paris.lutece.plugins.genericattributes.business.FieldHome;
-import fr.paris.lutece.plugins.genericattributes.business.IEntry;
+import fr.paris.lutece.plugins.genericattributes.business.Entry;
 import fr.paris.lutece.plugins.genericattributes.business.Response;
 import fr.paris.lutece.plugins.genericattributes.business.ResponseFilter;
 import fr.paris.lutece.plugins.genericattributes.business.ResponseHome;
@@ -188,7 +188,7 @@ public class ExportdatabaseHome
             if ( mapEntryListResponses.containsKey( entryConfiguration.getIdEntry( ) ) )
             {
 
-                IEntry entry = EntryHome.findByPrimaryKey( entryConfiguration.getIdEntry( ) );
+                Entry entry = EntryHome.findByPrimaryKey( entryConfiguration.getIdEntry( ) );
 
                 if ( entry.getEntryType( ).getIdType( ) == ENTRY_TYPE_FILE_IDENTIFIER )
                 {
