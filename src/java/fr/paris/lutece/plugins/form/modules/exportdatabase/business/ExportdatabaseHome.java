@@ -171,7 +171,7 @@ public class ExportdatabaseHome
         Collection<EntryConfiguration> entryConfigurationList = formConfiguration
                 .getEntryConfigurationList( pluginExportDatabase );
         ResponseFilter filter = new ResponseFilter( );
-        filter.setIdResource( formSubmit.getIdFormSubmit( ) );
+        filter.setIdResource(formSubmit.getIdFormSubmit( ) );
         HashMap<Integer, List<Response>> mapEntryListResponses = new HashMap<Integer, List<Response>>( );
         Response responseTemp;
         for ( Response response : ResponseHome.getResponseList( filter ) )
