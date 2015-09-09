@@ -67,6 +67,7 @@ import java.util.List;
 public class ExportdatabaseHome
 {
     public static final int ENTRY_TYPE_FILE_IDENTIFIER = 8;
+    public static final int ENTRY_TYPE_SQL_LIST_IDENTIFIER = 10;
 
     // Static variable pointed at the DAO instance
     private static final String EMPTY_STRING = "";
@@ -198,6 +199,10 @@ public class ExportdatabaseHome
                             entryConfiguration.getColumnName( ), responseTemp.getFile( ) != null ? responseTemp
                                     .getFile( ).getTitle( ) : null, StringUtil.convertToByte( responseTemp
                                     .getResponseValue( ) ), pluginExportDatabase );
+                }else if (entry.getEntryType( ).getIdType( ) == ENTRY_TYPE_SQL_LIST_IDENTIFIER )
+                {
+                	listResponses.add( setSqlEntryColumn( entryConfiguration,
+                			mapEntryListResponses.get( entryConfiguration.getIdEntry( ) ).get( 0 ).getField().getIdField()));
                 }
                 else
                 {
@@ -289,6 +294,27 @@ public class ExportdatabaseHome
             {
                 strValue += AppPropertiesService.getProperty( PROPERTY_MULTIPLE_RESPONSE_SEPARATOR, "," );
             }
+        }
+        item.setName( strValue );
+
+        return item;
+    }
+    
+    /**
+     * Set the entry value into a referenceItem to be inserted into table
+     * 
+     * @param entryConfiguration The {@link EntryConfiguration}
+     * @param listResponse the list of response associate to the question
+     * @return The {@link ReferenceItem}
+     */
+    private static ReferenceItem setSqlEntryColumn( EntryConfiguration entryConfiguration, Integer value )
+    {
+        ReferenceItem item = new ReferenceItem( );
+        item.setCode( entryConfiguration.getColumnName( ) );
+
+        String strValue = EMPTY_STRING;
+        if(value != null){
+        	strValue= String.valueOf(value);
         }
         item.setName( strValue );
 
